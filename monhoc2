@@ -24,7 +24,7 @@ void xy(int x, int y)
 	td.X = x;
 	td.Y = y;
 
-	SetConsoleCursorPosition(GetStdHandle(STD_INPUT_HANDLE), td);
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), td);
 }
 
 //doc file
