@@ -1,0 +1,245 @@
+#include <iostream>
+#include <conio.h>
+#include <Windows.h>
+#include <string>
+#include <fstream>
+#include <sstream>
+
+using namespace std;
+
+int xd = 10, yd = 1, d = 10, stop;
+
+//Cau truc
+struct monhoc {
+	char msmh[6];
+	char ten[10];
+	int stc, lt, th, tuh;
+};
+
+//gotoxy
+void xy(int x, int y)
+{
+	COORD td;
+
+	td.X = x;
+	td.Y = y;
+
+	SetConsoleCursorPosition(GetStdHandle(STD_INPUT_HANDLE), td);
+}
+
+//doc file
+int readfile(string f, monhoc n[], int& sl)
+{
+	int i = 0;
+	ifstream file(f.c_str());
+
+	if (!file.is_open()) 
+		return 1;
+
+	string line;
+	getline(file, line);
+
+	while (getline(file, line))
+	{
+		stringstream ss(line);
+
+		ss.getline(n[i].msmh, 6, ',');
+		ss.getline(n[i].ten, 10, ',');
+		ss >> n[i].stc;
+		ss >> n[i].lt;
+		ss >> n[i].th;
+		ss >> n[i].tuh;
+
+		i++;
+	}
+
+	sl = i;
+
+	return 0;
+}
+
+//menu chinh
+string mn[] = {
+	"CHUONG TRINH QUAN LY MON HOC",
+	"1. In danh sach cac mon hoc",
+	"2. Them mon hoc",
+	"3. Xoa mon hoc",
+	"4. Cap nhat mon hoc",
+	"5. Tim kiem mon hoc",
+	"6. Xap sep mon hoc",
+	"7. Thoat chuong trinh"
+};
+
+//in menu
+void inmn(string m[], int s, int x, int y)
+{
+	xy(x + 3.75 * d, y);
+	cout << m[0];
+	y++;
+	for (int i = 1; i < s; i++)
+	{
+		xy(x + 3.75 * d, y);
+		cout << m[i];
+		y++;
+	}
+
+	y++;
+	xy(x + 3.75 * d, y);
+	cout << "Chon thao tac: ";
+}
+
+//in tieu de
+void intd(int x, int &y)
+{
+	xy(x + 3.75 * d, y);
+	cout << "-----THONG TIN MON HOC-----";
+	y++;
+	xy(x, y);
+	cout << "MSMH";
+	xy(x + 1 * d, y);
+	cout << "Ten mon hoc";
+	xy(x + 2 * d, y);
+	cout << "So tin chi";
+	xy(x + 3 * d, y);
+	cout << "So gio ly thuyet";
+	xy(x + 4 * d, y);
+	cout << "So gio thuc hanh";
+	xy(x + 5 * d, y);
+	cout << "So gio tu hoc";
+}
+
+//in 1 mon hoc
+void inmh(monhoc m, int x, int &y)
+{
+	xy(x, y);
+	cout << m.msmh;
+	xy(x + 1 * d, y);
+	cout << m.ten;
+	xy(x + 2 * d, y);
+	cout << m.stc;
+	xy(x + 3 * d, y);
+	cout << m.lt;
+	xy(x + 4 * d, y);
+	cout << m.th;
+	xy(x + 5 * d, y);
+	cout << m.tuh;
+}
+
+//in danh sach
+void inds(monhoc m[], int sl, int x, int &y)
+{
+	intd(x, y);
+	y++;
+	for (int i = 0; i < sl; i++)
+	{
+		inmh(m[i], x, y);
+		y++;
+	}
+}
+
+//them mon hoc
+void them(monhoc m[], int& sl)
+{
+	sl++;
+	int vt = 1;
+	char yn;
+
+	do {
+		do {
+			system("cls");
+			if (vt<1 || vt>sl)
+				cout << "vi tri khong hop le, vui long nhap lai";
+			cout << "\n\nchon vi tri muon them: ";
+			cin >> vt;
+			cin.ignore();
+		} while (vt<1 || vt>sl);
+
+		for (int i = sl - 1; i >= vt; i--)
+			m[i] = m[i - 1];
+
+		cout << "MSMH: ";
+		cin >> m[vt - 1].msmh;
+		cout << "Ten mon hoc: ";
+		cin >> m[vt - 1].ten;
+		cout << "So tin chi: ";
+		cin >> m[vt - 1].stc;
+		cout << "So gio ly thuyet: ";
+		cin >> m[vt - 1].lt;
+		cout << "So gio thuc hanh: ";
+		cin >> m[vt - 1].th;
+		cout << "So gio tu hoc: ";
+		cin >> m[vt - 1].tuh;
+
+		cout << "\nCo them tiep khong (Y/N): ";
+		cin >> yn;
+	} while (yn == 'y' || yn == 'Y');
+
+	cout << "\n Nhan phim bat ki de quay ve menu chinh";
+}
+
+//xoamonhoc
+void xoa(monhoc m[], int& sl)
+{
+	int vt = 1;
+	char yn;
+
+	do {
+		do {
+			system("cls");
+			if (vt<1 || vt>sl)
+				cout << "vi tri khong hop le!\nvui long nhap lai";
+			cout << "\n\nchon vi tri muon xoa: ";
+			cin >> vt;
+			cin.ignore();
+		} while (vt<1 || vt>sl);
+
+		for (int i = vt - 1; i < sl; i++)
+			m[i] = m[i + 1];
+		sl--;
+
+		cout << "\nCo xoa tiep khong (Y/N): ";
+		cin >> yn;
+	} while (yn == 'y' || yn == 'Y');
+
+	cout << "\n Nhan phim bat ki de quay ve menu chinh";
+}
+
+int main()
+{
+	monhoc ds[10];
+	string filein = "thongtin.txt";
+	int sl, chon1, chon2;
+
+	if (readfile(filein, ds, sl) == 1)
+	{
+		cout << "Khong doc duoc file!";
+		stop = _getch();
+	}
+
+	do{
+		inmn(mn, size(mn), xd, yd);
+		cin >> chon1;
+		switch (chon1)
+		{
+		case 1:
+			system("cls");
+			inds(ds, sl, xd, yd);
+			stop = _getch();
+			break;
+		case 2:
+			system("cls");
+			them(ds, sl);
+			stop = _getch();
+			break;
+		case 3:
+			system("cls");
+			xoa(ds, sl);
+			stop = _getch();
+			break;
+		}
+
+	} while (chon1 != 7);
+
+	stop = _getch();
+	return 0;
+}
