@@ -7,7 +7,7 @@
 
 using namespace std;
 
-int xd = 10, yd = 1, d = 10, stop;
+int xd = 5, yd = 1, d = 10, stop;
 
 //Cau truc
 struct monhoc {
@@ -33,7 +33,7 @@ int readfile(string f, monhoc n[], int& sl)
 	int i = 0;
 	ifstream file(f.c_str());
 
-	if (!file.is_open()) 
+	if (!file.is_open())
 		return 1;
 
 	string line;
@@ -70,6 +70,39 @@ string mn[] = {
 	"7. Thoat chuong trinh"
 };
 
+//menu cap nhat
+string mn_cn[] = {
+	"CAP NHAT THONG TIN",
+	"1. Cap nhat MSMN",
+	"2. Cap nhat ten mon hoc",
+	"3. Cap nhat so tin chi",
+	"4. Cap nhat so gio ly thuyet",
+	"5. Cap nhat so gio thuc hanh",
+	"6. Cap nhat so gio tu hoc",
+	"7. Cap nhat tat ca",
+	"8. Thoat",
+};
+
+//menu tim kiem
+string mn_tk[] = {
+	"CHON PHUONG PHAP TIM KIEM"
+	"1. liner",
+	"2. Binary",
+	"3. Thoat"
+};
+
+//menu tim kiem 2
+string mn_tk2[] = {
+	"CHON TIM KIEM THEO",
+	"1. MSMH",
+	"2. Ten mon hoc",
+	"3. So tin chi",
+	"4. So gio ly thuyet",
+	"5. So gio thuc hanh",
+	"6. So gio tu hoc",
+	"7. Thoat"
+};
+
 //in menu
 void inmn(string m[], int s, int x, int y)
 {
@@ -82,59 +115,63 @@ void inmn(string m[], int s, int x, int y)
 		cout << m[i];
 		y++;
 	}
-
 	y++;
 	xy(x + 3.75 * d, y);
 	cout << "Chon thao tac: ";
 }
 
 //in tieu de
-void intd(int x, int &y)
+void intd(int x, int& y)
 {
-	xy(x + 3.75 * d, y);
+	xy(x + 3.755 * d, y);
 	cout << "-----THONG TIN MON HOC-----";
 	y++;
 	xy(x, y);
+	cout << "STT";
+	xy(x + 0.6 * d, y);
 	cout << "MSMH";
-	xy(x + 1 * d, y);
+	xy(x + 1.5 * d, y);
 	cout << "Ten mon hoc";
-	xy(x + 2 * d, y);
-	cout << "So tin chi";
 	xy(x + 3 * d, y);
+	cout << "So tin chi";
+	xy(x + 4.25 * d, y);
 	cout << "So gio ly thuyet";
-	xy(x + 4 * d, y);
+	xy(x + 6.25 * d, y);
 	cout << "So gio thuc hanh";
-	xy(x + 5 * d, y);
+	xy(x + 8.25 * d, y);
 	cout << "So gio tu hoc";
 }
 
 //in 1 mon hoc
-void inmh(monhoc m, int x, int &y)
+void inmh(monhoc m, int x, int& y)
 {
-	xy(x, y);
+	xy(x + 0.6 * d, y);
 	cout << m.msmh;
-	xy(x + 1 * d, y);
+	xy(x + 1.5 * d, y);
 	cout << m.ten;
-	xy(x + 2 * d, y);
-	cout << m.stc;
 	xy(x + 3 * d, y);
+	cout << m.stc;
+	xy(x + 4.25 * d, y);
 	cout << m.lt;
-	xy(x + 4 * d, y);
+	xy(x + 6.25 * d, y);
 	cout << m.th;
-	xy(x + 5 * d, y);
+	xy(x + 8.25 * d, y);
 	cout << m.tuh;
 }
 
 //in danh sach
-void inds(monhoc m[], int sl, int x, int &y)
+void inds(monhoc m[], int sl, int x, int& y)
 {
 	intd(x, y);
 	y++;
 	for (int i = 0; i < sl; i++)
 	{
+		xy(x, y);
+		cout << i+1;
 		inmh(m[i], x, y);
 		y++;
 	}
+	y = 1;
 }
 
 //them mon hoc
@@ -142,39 +179,45 @@ void them(monhoc m[], int& sl)
 {
 	sl++;
 	int vt = 1;
-	char yn;
+	char yn = 'n';
 
 	do {
-		do {
-			system("cls");
-			if (vt<1 || vt>sl)
-				cout << "vi tri khong hop le, vui long nhap lai";
-			cout << "\n\nchon vi tri muon them: ";
-			cin >> vt;
-			cin.ignore();
-		} while (vt<1 || vt>sl);
+		system("cls");
+		if (sl == 10)
+			cout << "Danh sach da day!";
+		else
+		{
+			do {
+				system("cls");
+				if (vt<1 || vt>sl)
+					cout << "vi tri khong hop le!\nvui long nhap lai";
+				cout << "\n\nchon vi tri muon them: ";
+				cin >> vt;
+				cin.ignore();
+			} while (vt<1 || vt>sl + 1);
 
-		for (int i = sl - 1; i >= vt; i--)
-			m[i] = m[i - 1];
+			for (int i = sl - 1; i >= vt; i--)
+				m[i] = m[i - 1];
 
-		cout << "MSMH: ";
-		cin >> m[vt - 1].msmh;
-		cout << "Ten mon hoc: ";
-		cin >> m[vt - 1].ten;
-		cout << "So tin chi: ";
-		cin >> m[vt - 1].stc;
-		cout << "So gio ly thuyet: ";
-		cin >> m[vt - 1].lt;
-		cout << "So gio thuc hanh: ";
-		cin >> m[vt - 1].th;
-		cout << "So gio tu hoc: ";
-		cin >> m[vt - 1].tuh;
+			cout << "MSMH: ";
+			cin >> m[vt - 1].msmh;
+			cout << "Ten mon hoc: ";
+			cin >> m[vt - 1].ten;
+			cout << "So tin chi: ";
+			cin >> m[vt - 1].stc;
+			cout << "So gio ly thuyet: ";
+			cin >> m[vt - 1].lt;
+			cout << "So gio thuc hanh: ";
+			cin >> m[vt - 1].th;
+			cout << "So gio tu hoc: ";
+			cin >> m[vt - 1].tuh;
 
-		cout << "\nCo them tiep khong (Y/N): ";
-		cin >> yn;
+			cout << "\nCo them tiep khong (Y/N): ";
+			cin >> yn;
+		}
 	} while (yn == 'y' || yn == 'Y');
 
-	cout << "\n Nhan phim bat ki de quay ve menu chinh";
+	cout << "\n Nhan phim bat ki de quay ve menu chinh...";
 }
 
 //xoamonhoc
@@ -201,7 +244,154 @@ void xoa(monhoc m[], int& sl)
 		cin >> yn;
 	} while (yn == 'y' || yn == 'Y');
 
-	cout << "\n Nhan phim bat ki de quay ve menu chinh";
+	cout << "\n Nhan phim bat ki de quay ve menu chinh...";
+}
+
+//cap nhat
+void cn(monhoc m[], int sl)
+{
+	int stt = 1, chon;
+	char yn = 'n';
+
+	do {
+		do {
+			system("cls");
+			if (stt<1 || stt>sl)
+				cout << "so thu tu khong hop le!\nvui long nhap lai";
+			cout << "\n\nchon so thu tu mon hoc muon cap nhat: ";
+			cin >> stt;
+			cin.ignore();
+		} while (stt<1 || stt>sl);
+
+		system("cls");
+		inmn(mn_cn, size(mn_cn), xd, yd);
+		cin >> chon;
+		cin.ignore();
+
+		switch (chon)
+		{
+		case 1:
+			system("cls");
+			cout << "\nMSMH moi: ";
+			cin.getline(m[stt - 1].msmh, 6);
+			stop = _getch();
+			break;
+		case 2:
+			system("cls");
+			cout << "\nTen mon hoc moi: ";
+			cin.getline(m[stt - 1].ten, 6);
+			stop = _getch();
+			break;
+		case 3:
+			system("cls");
+			cout << "\nSo tin chi moi: ";
+			cin >> m[stt - 1].stc;
+			break;
+		case 4:
+			system("cls");
+			cout << "\nSo gio ly thuyet moi: ";
+			cin >> m[stt - 1].lt;
+			break;
+		case 5:
+			system("cls");
+			cout << "\nSo gio thuc hanh moi: ";
+			cin >> m[stt - 1].th;
+			break;
+		case 6:
+			system("cls");
+			cout << "\nSo gio tu hoc moi: ";
+			cin >> m[stt - 1].tuh;
+			break;
+		case 7:
+			system("cls");
+			cout << "\nMSMH moi: ";
+			cin.getline(m[stt - 1].msmh, 6);
+			cout << "\nTen mon hoc moi: ";
+			cin.getline(m[stt - 1].ten, 6);
+			cout << "\nSo tin chi moi: ";
+			cin >> m[stt - 1].stc;
+			cout << "\nSo gio ly thuyet moi: ";
+			cin >> m[stt - 1].lt;
+			cout << "\nSo gio thuc hanh moi: ";
+			cin >> m[stt - 1].th;
+			cout << "\nSo gio tu hoc moi: ";
+			cin >> m[stt - 1].tuh;
+		}
+		if (chon != 8)
+		{
+			cout << "\nDa cap nhat thanh cong co lam tiep khong (Y/N): ";
+			cin >> yn;
+		}
+	} while (yn == 'y' || yn == 'Y');
+
+	cout << "\n\nNhan phim bat ki de quay ve menu chinh...";
+}
+
+// tim kiem theo liner
+void tk_liner(monhoc m[], int sl)
+{
+	int chon, luu[10], sl2 = -1, x = 0;
+	char chu[50];
+
+	do {
+		system("cls");
+		inmn(mn_tk2, size(mn_tk2), xd, yd);
+		cin >> chon;
+		cin.ignore();
+
+		switch (chon)
+		{
+		case 1:
+			system("cls");
+			cout << "Nhap MSMH can tim: ";
+			cin.getline(chu, 50);
+			for (int i = 0; i < sl; i++)
+			{
+				if (strcmp(m[i].msmh, chu) == 0)
+				{
+					sl2++;
+					luu[sl2] = i;
+					x = 1;
+				}
+
+				stop = _getch();
+
+			}
+		case 2:
+		case 3:
+		case 4:
+		case 5:
+		case 6:
+		}
+	} while (chon != 7);
+
+}
+
+//tim kiem
+void tk(monhoc m[], int sl)
+{
+	int so, chon;
+	char yn;
+
+	do {
+		do {
+			system("cls");
+			inmn(mn_tk, size(mn_tk), xd, yd);
+			cin >> chon;
+
+			switch (chon)
+			{
+			case 1:
+				system("cls");
+
+				stop = _getch();
+				break;
+			case 2:
+			}
+
+		} while (chon != 3);
+
+	}while (yn == 'y' || yn == 'Y');
 }
 
 int main()
@@ -216,7 +406,8 @@ int main()
 		stop = _getch();
 	}
 
-	do{
+	do {
+		system("cls");
 		inmn(mn, size(mn), xd, yd);
 		cin >> chon1;
 		switch (chon1)
@@ -236,6 +427,13 @@ int main()
 			xoa(ds, sl);
 			stop = _getch();
 			break;
+		case 4:
+			system("cls");
+			cn(ds, sl);
+			stop = _getch();
+			break;
+		case 5:
+
 		}
 
 	} while (chon1 != 7);
