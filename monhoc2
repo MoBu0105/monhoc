@@ -85,7 +85,7 @@ string mn_cn[] = {
 
 //menu tim kiem
 string mn_tk[] = {
-	"CHON PHUONG PHAP TIM KIEM"
+	"CHON PHUONG PHAP TIM KIEM",
 	"1. liner",
 	"2. Binary",
 	"3. Thoat"
@@ -106,12 +106,12 @@ string mn_tk2[] = {
 //in menu
 void inmn(string m[], int s, int x, int y)
 {
-	xy(x + 3.75 * d, y);
+	xy(x + 3.755 * d, y);
 	cout << m[0];
 	y++;
 	for (int i = 1; i < s; i++)
 	{
-		xy(x + 3.75 * d, y);
+		xy(x + 3.755 * d, y);
 		cout << m[i];
 		y++;
 	}
@@ -136,7 +136,7 @@ void intd(int x, int& y)
 	cout << "So tin chi";
 	xy(x + 4.25 * d, y);
 	cout << "So gio ly thuyet";
-	xy(x + 6.25 * d, y);
+	xy(x + 6.35 * d, y);
 	cout << "So gio thuc hanh";
 	xy(x + 8.25 * d, y);
 	cout << "So gio tu hoc";
@@ -153,7 +153,7 @@ void inmh(monhoc m, int x, int& y)
 	cout << m.stc;
 	xy(x + 4.25 * d, y);
 	cout << m.lt;
-	xy(x + 6.25 * d, y);
+	xy(x + 6.35 * d, y);
 	cout << m.th;
 	xy(x + 8.25 * d, y);
 	cout << m.tuh;
@@ -167,7 +167,7 @@ void inds(monhoc m[], int sl, int x, int& y)
 	for (int i = 0; i < sl; i++)
 	{
 		xy(x, y);
-		cout << i+1;
+		cout << i + 1;
 		inmh(m[i], x, y);
 		y++;
 	}
@@ -178,7 +178,7 @@ void inds(monhoc m[], int sl, int x, int& y)
 void them(monhoc m[], int& sl)
 {
 	sl++;
-	int vt = 1;
+	int vt = 1, trung = 0;
 	char yn = 'n';
 
 	do {
@@ -194,23 +194,42 @@ void them(monhoc m[], int& sl)
 				cout << "\n\nchon vi tri muon them: ";
 				cin >> vt;
 				cin.ignore();
-			} while (vt<1 || vt>sl + 1);
+			} while (vt<1 || vt>sl);
 
 			for (int i = sl - 1; i >= vt; i--)
 				m[i] = m[i - 1];
 
-			cout << "MSMH: ";
-			cin >> m[vt - 1].msmh;
-			cout << "Ten mon hoc: ";
-			cin >> m[vt - 1].ten;
-			cout << "So tin chi: ";
-			cin >> m[vt - 1].stc;
-			cout << "So gio ly thuyet: ";
-			cin >> m[vt - 1].lt;
-			cout << "So gio thuc hanh: ";
-			cin >> m[vt - 1].th;
-			cout << "So gio tu hoc: ";
-			cin >> m[vt - 1].tuh;
+			do {
+				trung = 0;
+
+				cout << "MSMH: ";
+				cin >> m[vt - 1].msmh;
+				cout << "Ten mon hoc: ";
+				cin >> m[vt - 1].ten;
+				cout << "So tin chi: ";
+				cin >> m[vt - 1].stc;
+				cout << "So gio ly thuyet: ";
+				cin >> m[vt - 1].lt;
+				cout << "So gio thuc hanh: ";
+				cin >> m[vt - 1].th;
+				cout << "So gio tu hoc: ";
+				cin >> m[vt - 1].tuh;
+
+				for (int i = 0; i < sl; i++)
+				{
+					if (vt - 1 == i) continue;
+					else if (strcmp(m[vt - 1].msmh, m[i].msmh) == 0 || strcmp(m[vt - 1].ten, m[i].ten) == 0)
+						trung = 1;
+				}
+
+				if (trung == 1)
+				{
+					cout << "\nDu lieu da nhap bi trung msmh hoac ten mon hoc!\nVui long nhap lai";
+					stop = _getch();
+					system("cls");
+				}
+				
+			} while (trung == 1);
 
 			cout << "\nCo them tiep khong (Y/N): ";
 			cin >> yn;
@@ -256,6 +275,7 @@ void cn(monhoc m[], int sl)
 	do {
 		do {
 			system("cls");
+			inds(m, sl, xd, yd);
 			if (stt<1 || stt>sl)
 				cout << "so thu tu khong hop le!\nvui long nhap lai";
 			cout << "\n\nchon so thu tu mon hoc muon cap nhat: ";
@@ -317,7 +337,7 @@ void cn(monhoc m[], int sl)
 			cout << "\nSo gio tu hoc moi: ";
 			cin >> m[stt - 1].tuh;
 		}
-		if (chon != 8)
+		if (chon != 8 )
 		{
 			cout << "\nDa cap nhat thanh cong co lam tiep khong (Y/N): ";
 			cin >> yn;
@@ -328,14 +348,14 @@ void cn(monhoc m[], int sl)
 }
 
 // tim kiem theo liner
-void tk_liner(monhoc m[], int sl)
+void tk_liner(monhoc m[], int sl, int x, int y)
 {
-	int chon, luu[10], sl2 = -1, x = 0;
+	int chon, luu[10], sl2 = 0, tt = 0, so;
 	char chu[50];
 
 	do {
 		system("cls");
-		inmn(mn_tk2, size(mn_tk2), xd, yd);
+		inmn(mn_tk2, size(mn_tk2), x, y);
 		cin >> chon;
 		cin.ignore();
 
@@ -344,27 +364,215 @@ void tk_liner(monhoc m[], int sl)
 		case 1:
 			system("cls");
 			cout << "Nhap MSMH can tim: ";
-			cin.getline(chu, 50);
+			cin.getline(chu, 6);
 			for (int i = 0; i < sl; i++)
 			{
 				if (strcmp(m[i].msmh, chu) == 0)
 				{
 					sl2++;
-					luu[sl2] = i;
-					x = 1;
+					luu[sl2-1] = i;
+					tt = 1;
 				}
-
-				stop = _getch();
-
 			}
-		case 2:
-		case 3:
-		case 4:
-		case 5:
-		case 6:
-		}
-	} while (chon != 7);
+			if (tt == 1)
+			{
+				intd(x, y);
+				y++;
+				for (int i = 0; i < sl2; i++)
+				{
+					xy(x, y);
+					cout << luu[i]+1;
+					inmh(m[luu[i]],x, y);
+					y++;
+				}
+				y = 1;
 
+				cout << "\n\nDa tim thay MSNH " << chu << " tai vi tri ";
+				for (int i = 0; i < sl2; i++)
+					cout << luu[i] + 1 << " ";
+			}
+			else
+				cout << "Khong tim thay MSMH " << chu << " trong danh sanh!";
+			stop = _getch();
+			break;
+
+		case 2:
+			system("cls");
+			cout << "Nhap ten mon hoc can tim: ";
+			cin.getline(chu, 10);
+			for (int i = 0; i < sl; i++)
+			{
+				if (strcmp(m[i].ten, chu) == 0)
+				{
+					sl2++;
+					luu[sl2 - 1] = i;
+					tt = 1;
+				}
+			}
+			if (tt == 1)
+			{
+				intd(x, y);
+				y++;
+				for (int i = 0; i < sl2; i++)
+				{
+					xy(x, y);
+					cout << luu[i] + 1;
+					inmh(m[luu[i]], x, y);
+					y++;
+				}
+				y = 1;
+
+				cout << "\n\nDa tim thay mon " << chu << " tai vi tri ";
+				for (int i = 0; i < sl2; i++)
+					cout << luu[i] + 1 << " ";
+			}
+			else
+				cout << "Khong tim thay mon " << chu << " trong danh sanh!";
+			stop = _getch();
+			break; 
+
+		case 3:
+			system("cls");
+			cout << "Nhap so tin chi can tim: ";
+			cin >> so;
+			cin.ignore();
+			for (int i = 0; i < sl; i++)
+			{
+				if (m[i].stc == so)
+				{
+					sl2++;
+					luu[sl2 - 1] = i;
+					tt = 1;
+				}
+			}
+			if (tt == 1)
+			{
+				intd(x, y);
+				y++;
+				for (int i = 0; i < sl2; i++)
+				{
+					xy(x, y);
+					cout << luu[i] + 1;
+					inmh(m[luu[i]], x, y);
+					y++;
+				}
+				y = 1;
+
+				cout << "\n\nDa tim thay mon hoc co so tin chi la " << so << " tai vi tri ";
+				for (int i = 0; i < sl2; i++)
+					cout << luu[i] + 1 << " ";
+			}
+			else
+				cout << "Khong tim thay mon hoc co so tin chi la " << so << " trong danh sanh!";
+			stop = _getch();
+			break;
+		case 4:
+			system("cls");
+			cout << "Nhap so gio ly thuyet can tim: ";
+			cin >> so;
+			cin.ignore();
+			for (int i = 0; i < sl; i++)
+			{
+				if (m[i].lt == so)
+				{
+					sl2++;
+					luu[sl2 - 1] = i;
+					tt = 1;
+				}
+			}
+			if (tt == 1)
+			{
+				intd(x, y);
+				y++;
+				for (int i = 0; i < sl2; i++)
+				{
+					xy(x, y);
+					cout << luu[i] + 1;
+					inmh(m[luu[i]], x, y);
+					y++;
+				}
+				y = 1;
+
+				cout << "\n\nDa tim thay mon hoc co so gio ly thuyet la " << so << " tai vi tri ";
+				for (int i = 0; i < sl2; i++)
+					cout << luu[i] + 1 << " ";
+			}
+			else
+				cout << "Khong tim thay mon hoc co so gio ly thuyet la " << so << " trong danh sanh!";
+			stop = _getch();
+			break;
+		case 5:
+			system("cls");
+			cout << "Nhap so gio thuc hanh can tim: ";
+			cin >> so;
+			cin.ignore();
+			for (int i = 0; i < sl; i++)
+			{
+				if (m[i].th == so)
+				{
+					sl2++;
+					luu[sl2 - 1] = i;
+					tt = 1;
+				}
+			}
+			if (tt == 1)
+			{
+				intd(x, y);
+				y++;
+				for (int i = 0; i < sl2; i++)
+				{
+					xy(x, y);
+					cout << luu[i] + 1;
+					inmh(m[luu[i]], x, y);
+					y++;
+				}
+				y = 1;
+
+				cout << "\n\nDa tim thay mon hoc co so gio thuc hanh la " << so << " tai vi tri ";
+				for (int i = 0; i < sl2; i++)
+					cout << luu[i] + 1 << " ";
+			}
+			else
+				cout << "Khong tim thay mon hoc co so gio thuc hanh la " << so << " trong danh sanh!";
+			stop = _getch();
+			break;
+		case 6:
+			system("cls");
+			cout << "Nhap so gio tu hoc can tim: ";
+			cin >> so;
+			cin.ignore();
+			for (int i = 0; i < sl; i++)
+			{
+				if (m[i].tuh == so)
+				{
+					sl2++;
+					luu[sl2 - 1] = i;
+					tt = 1;
+				}
+			}
+			if (tt == 1)
+			{
+				intd(x, y);
+				y++;
+				for (int i = 0; i < sl2; i++)
+				{
+					xy(x, y);
+					cout << luu[i] + 1;
+					inmh(m[luu[i]], x, y);
+					y++;
+				}
+				y = 1;
+
+				cout << "\n\nDa tim thay mon hoc co so gio tu hoc la " << so << " tai vi tri ";
+				for (int i = 0; i < sl2; i++)
+					cout << luu[i] + 1 << " ";
+			}
+			else
+				cout << "Khong tim thay mon hoc co so gio tu hoc la " << so << " trong danh sanh!";
+			stop = _getch();	
+		}
+		sl2 = 0;
+	} while (chon != 7);
 }
 
 //tim kiem
@@ -374,25 +582,23 @@ void tk(monhoc m[], int sl)
 	char yn;
 
 	do {
-		do {
+		inmn(mn_tk, size(mn_tk), xd, yd);
+		cin >> chon;
+
+		switch (chon)
+		{
+		case 1:
 			system("cls");
-			inmn(mn_tk, size(mn_tk), xd, yd);
-			cin >> chon;
+			tk_liner(m, sl, xd, yd);
+			stop = _getch();
+			break;
+			/*case 2:*/
+		}
 
-			switch (chon)
-			{
-			case 1:
-				system("cls");
-
-				stop = _getch();
-				break;
-			case 2:
-			}
-
-		} while (chon != 3);
-
-	}while (yn == 'y' || yn == 'Y');
+	} while (chon != 3);
 }
+
+
 
 int main()
 {
@@ -433,10 +639,18 @@ int main()
 			stop = _getch();
 			break;
 		case 5:
+			system("cls");
+			tk(ds, sl);
+			stop = _getch();
+			break;
 
 		}
 
 	} while (chon1 != 7);
+
+	system("cls");
+	xy(xd + 3.5 * d, yd + 10.5);
+	cout << "Cam on da su dung chuong trinh!";
 
 	stop = _getch();
 	return 0;
