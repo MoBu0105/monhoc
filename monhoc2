@@ -877,9 +877,26 @@ void tk_liner(monhoc m[], int sl, int x, int y)
 }
 
 //tim kiem binary
-void tk_binary(monhoc m[], int sl, int xd, int yd)
+void tk_binary(monhoc m[], int sl, int sx, int x, int y)
 {
+	int chon1, chon2, luu[10], sl2 = 0, tt = 0, d = 0, c = sl - 1, g;
+	char chu[50];
 
+	if (sx == 1)
+
+	do {
+		system("cls");
+		inmn(mn_tk2, size(mn_tk2), x, y);
+		cin >> chon1;
+		cin.ignore();
+
+
+
+
+
+
+
+	} while (chon1 != 7);
 }
 
 //tim kiem
@@ -910,7 +927,7 @@ int main()
 {
 	monhoc ds[10];
 	string filein = "thongtin.txt";
-	int sl, chon1, chon2;
+	int sl, chon1, chon2, sx = 0;
 
 	if (readfile(filein, ds, sl) == 1)
 	{
@@ -951,7 +968,6 @@ int main()
 			break;
 
 		}
-
 	} while (chon1 != 7);
 
 	system("cls");
