@@ -1,0 +1,55 @@
+#include <iostream>
+#include <conio.h>
+
+using namespace std;
+
+void swap(int &m, int &n)
+{
+	int t = m;
+	m = n;
+	n = t;
+}
+
+void shaker(int m[], int sl)
+{
+	int l = 0, r = sl - 1, k = sl - 1;
+	while (l < r)
+	{
+		for (int i = r; i > l; i--)
+			if (m[i] < m[i - 1])
+			{
+				swap(m[i], m[i - 1]);
+				k = i;
+			}
+		l = k;
+			
+
+		for (int i = l; i < r - 1 + 1; i++)
+			if (m[i] > m[i + 1])
+			{
+				swap(m[i], m[i + 1]);
+				k = i;
+			}	
+		r = k;
+	}
+}
+
+void in(int m[], int sl)
+{
+	for (int i = 0; i < sl; i++)
+		cout << m[i] << " ";
+}
+
+int main()
+{
+	int m[10] = { 6,3,5,9,1,0,4,2,8,7 }, sl=10;
+
+	cout << "\n\nham ban dau: \n";
+	in(m, sl);
+	shaker(m, sl);
+	cout << "\n\nham sau sap xep: \n";
+	in(m, sl);
+
+	int t = _getch();
+	return 0;
+}
