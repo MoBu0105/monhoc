@@ -1,15 +1,3 @@
-#include <iostream>
-#include <conio.h>
-
-using namespace std;
-
-void swap(int &m, int &n)
-{
-	int t = m;
-	m = n;
-	n = t;
-}
-
 void shaker(int m[], int sl)
 {
 	int l = 0, r = sl - 1, k = sl - 1;
@@ -34,22 +22,16 @@ void shaker(int m[], int sl)
 	}
 }
 
-void in(int m[], int sl)
+void sele(int m[], int sl)
 {
+	int min;
+
 	for (int i = 0; i < sl; i++)
-		cout << m[i] << " ";
-}
-
-int main()
-{
-	int m[10] = { 6,3,5,9,1,0,4,2,8,7 }, sl=10;
-
-	cout << "\n\nham ban dau: \n";
-	in(m, sl);
-	shaker(m, sl);
-	cout << "\n\nham sau sap xep: \n";
-	in(m, sl);
-
-	int t = _getch();
-	return 0;
+	{
+		min = i;
+		for (int j = i; j < sl; j++)
+			if (m[j] < m[min])
+				min = j;
+		swap(m[i], m[min]);
+	}
 }
