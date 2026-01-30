@@ -91,8 +91,8 @@ string mn_tk[] = {
 	"3. Thoat"
 };
 
-//menu tim kiem 2
-string mn_tk2[] = {
+//menu tim kiem liner
+string mn_tk_ln[] = {
 	"CHON TIM KIEM THEO",
 	"1. MSMH",
 	"2. Ten mon hoc",
@@ -103,13 +103,52 @@ string mn_tk2[] = {
 	"7. Thoat"
 };
 
+//menu tim kiem binary
+string mn_tk_bn[] = {
+	"CHON TIM KIEM THEO",
+	"1. MSMH",
+	"2. Ten mon hoc"
+	"3. Thoat"
+};
+
 //menu tim kiem 3
 string mn_tk3[] = {
-	"CHON PHUONG THUC",
+	"CHON PHUONG THUC TIM KIEM",
 	"1. Tim lon nhat",
 	"2. Tim nho nhat",
 	"3. Tim tuy chon",
 	"4. Thoat"
+};
+
+//menu sx chinh
+string mn_sx[] = {
+	"CHON PHUONG THUC SAP XEP",
+	"1. Buble",
+	"2. Skaker",
+	"3. Selection",
+	"4. Insertion",
+	"5. InterChange",
+	"6. Thoat"
+};
+
+//menu sx 2
+string mn_sx2[] = {
+	"CHON SAP XEP THEO",
+	"1. MSMH",
+	"2. Ten mon hoc",
+	"3. So tin chi",
+	"4. So gio ly thuyet",
+	"5. So gio thuc hanh",
+	"6. So gio tu hoc",
+	"7. Thoat"
+};
+
+//menu sx 3
+string mn_sx3[] = {
+	"CHON LOAI XAP SEP",
+	"1. Tang dan",
+	"2. Giam dan",
+	"3. Thoat"
 };
 
 //in menu
@@ -364,7 +403,7 @@ void tk_liner(monhoc m[], int sl, int x, int y)
 
 	do {
 		system("cls");
-		inmn(mn_tk2, size(mn_tk2), x, y);
+		inmn(mn_tk_ln, size(mn_tk_ln), x, y);
 		cin >> chon1;
 		cin.ignore();
 
@@ -877,30 +916,122 @@ void tk_liner(monhoc m[], int sl, int x, int y)
 }
 
 //tim kiem binary
-void tk_binary(monhoc m[], int sl, int sx, int x, int y)
+void tk_binary(monhoc m[], int sl, int& sx, int x, int y)
 {
-	int chon1, chon2, luu[10], sl2 = 0, tt = 0, d = 0, c = sl - 1, g;
+	int chon1, luu[10], sl2 = 0, tt = 0, d = 0, c = sl - 1, g;
 	char chu[50];
 
-	if (sx == 1)
+	if (sx == 0)
+		cout << "Danh sach chua sap xep, vui long sap xep truoc khi dung tim kiem binary!";
+		
+	else 
+		do {
+			system("cls");
+			inmn(mn_tk_bn, size(mn_tk_bn), x, y);
+			cin >> chon1;
+			cin.ignore();
 
-	do {
-		system("cls");
-		inmn(mn_tk2, size(mn_tk2), x, y);
-		cin >> chon1;
-		cin.ignore();
+			switch (chon1)
+			{
+			case 1:
+				system("cls");
+				cout << "Nhap MSMH can tim: ";
+				cin.getline(chu, 6);
 
+				if (sx == 1)
+				{
+					while (d < c)
+					{
+						g = (d + c) / 2;
+						if (strcmp(chu, m[g].msmh) == 0)
+						{
+							sl2++;
+							luu[sl2 - 1] = g;
+							tt = 1;
+						}
+						if (strcmp(chu, m[g].msmh) == 1)
+							d = g;
+						else
+							c = g;
+					}
+				}
 
+				if (sx == -1)
+				{
+					while (d < c)
+					{
+						g = (d + c) / 2;
+						if (strcmp(chu, m[g].msmh) == 0)
+						{
+							sl2++;
+							luu[sl2 - 1] = g;
+							tt = 1;
+						}
+						if (strcmp(chu, m[g].msmh) == 1)
+							c = g;
+						else
+							d = g;
+					}
+				}
 
+				if (tt == 0)
+					cout << "Khong tim thay msmh " << chu << " trong danh sach";
+				else
+					cout << "Da tim thay msmh " << chu << " tai vi tri " << g + 1;
+				stop = _getch();
+				break;
+			case 2:
+				system("cls");
+				cout << "Nhap ten mon hoc can tim: ";
+				cin.getline(chu, 6);
 
+				if (sx == 1)
+				{
+					while (d < c)
+					{
+						g = (d + c) / 2;
+						if (strcmp(chu, m[g].ten) == 0)
+						{
+							sl2++;
+							luu[sl2 - 1] = g;
+							tt = 1;
+						}
+						if (strcmp(chu, m[g].ten) == 1)
+							d = g;
+						else
+							c = g;
+					}
+				}
 
+				if (sx == -1)
+				{
+					while (d < c)
+					{
+						g = (d + c) / 2;
+						if (strcmp(chu, m[g].ten) == 0)
+						{
+							sl2++;
+							luu[sl2 - 1] = g;
+							tt = 1;
+						}
+						if (strcmp(chu, m[g].ten) == 1)
+							c = g;
+						else
+							d = g;
+					}
+				}
 
-
-	} while (chon1 != 7);
+				if (tt == 0)
+					cout << "Khong tim thay mon " << chu << " trong danh sach";
+				else
+					cout << "Da tim thay mon " << chu << " tai vi tri " << g + 1;
+				stop = _getch();
+			}
+		} while (chon1 != 3);
 }
 
 //tim kiem
-void tk(monhoc m[], int sl)
+void tk(monhoc m[], int sl, int& sx)
 {
 	int so, chon;
 	char yn;
@@ -917,10 +1048,69 @@ void tk(monhoc m[], int sl)
 			tk_liner(m, sl, xd, yd);
 			stop = _getch();
 			break;
-			/*case 2:*/
+		case 2:
+			system("cls");
+			tk_binary(m, sl, sx, xd, yd);
+			stop = _getch();
 		}
-
 	} while (chon != 3);
+}
+
+void swap(monhoc& m, monhoc& n)
+{
+	monhoc t = m;
+	m = n;
+	n = t;
+}
+
+//sap xep buble
+void buble(monhoc m[], int sl, int sx)
+{
+	if (sx == 1)
+	{
+		
+	}
+}
+
+void sapxep(monhoc m[], int sl, int& sx)
+{
+	int chon1, chon2, chon3;
+
+	do {
+		system("cls");
+		inmn(mn_sx, size(mn_sx), xd, yd);
+		cin >> chon1;
+		if (chon1 == 6)
+		{
+			cout << "Nhan phim bat ki de tiep tuc";
+			break;
+		}
+		do {
+			system("cls");
+			inmn(mn_sx2, size(mn_sx2), xd, yd);
+			cin >> chon2;
+			if (chon2 == 7)break;
+
+			do {
+				system("cls");
+				inmn(mn_sx3, size(mn_sx3), xd, yd);
+				cin >> chon3;
+				if (chon3 == 3)break;
+
+				if (chon3 == 1) sx = 1;
+				else if (chon3 == 2) sx = -1;
+
+				switch (chon1)
+				{
+				case 1:
+				case 2:
+				case 3:
+				case 4:
+				case 5:
+				}
+			} while (chon3 != 3);
+		} while (chon2 != 7);
+	} while (chon1 != 6);
 }
 
 int main()
@@ -963,10 +1153,13 @@ int main()
 			break;
 		case 5:
 			system("cls");
-			tk(ds, sl);
+			tk(ds, sl, sx);
 			stop = _getch();
 			break;
-
+		case 6:
+			system("cls");
+			sapxep(ds, sl, sx);
+			stop = _getch();
 		}
 	} while (chon1 != 7);
 
