@@ -35,3 +35,19 @@ void sele(int m[], int sl)
 		swap(m[i], m[min]);
 	}
 }
+
+void inter(int m[], int sl)
+{
+	int x, j;
+	for (int i = 0; i < sl; i++)
+	{
+		x = m[i];
+		j = i-1;
+		while (j >= 0 && x < m[j])
+		{
+			m[j + 1] = m[j];
+			j = j - 1;
+		}
+		m[j + 1] = x;
+	}
+}
