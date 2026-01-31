@@ -33,3 +33,19 @@ void shaker(int m[], int sl)
         l=k;
     }
 }
+
+void selection(int m[], int sl)
+{
+    int min;
+    
+    for(int i = 0; i < sl; i++)
+    {
+       min = i;
+       for(int j = i; j < sl; j++)
+       {
+           if(m[j]<m[min])
+               min = j;
+       } 
+       swap(m[min], m[i]);
+    }
+} 
