@@ -135,12 +135,11 @@ string mn_sx[] = {
 string mn_sx2[] = {
 	"CHON SAP XEP THEO",
 	"1. MSMH",
-	"2. Ten mon hoc",
-	"3. So tin chi",
-	"4. So gio ly thuyet",
-	"5. So gio thuc hanh",
-	"6. So gio tu hoc",
-	"7. Thoat"
+	"2. So tin chi",
+	"3. So gio ly thuyet",
+	"4. So gio thuc hanh",
+	"5. So gio tu hoc",
+	"6. Thoat"
 };
 
 //menu sx 3
@@ -182,7 +181,7 @@ void intd(int x, int& y)
 	cout << "Ten mon hoc";
 	xy(x + 3 * d, y);
 	cout << "So tin chi";
-	xy(x + 4.25 * d, y);
+	xy(x + 4.35 * d, y);
 	cout << "So gio ly thuyet";
 	xy(x + 6.35 * d, y);
 	cout << "So gio thuc hanh";
@@ -199,7 +198,7 @@ void inmh(monhoc m, int x, int& y)
 	cout << m.ten;
 	xy(x + 3 * d, y);
 	cout << m.stc;
-	xy(x + 4.25 * d, y);
+	xy(x + 4.35 * d, y);
 	cout << m.lt;
 	xy(x + 6.35 * d, y);
 	cout << m.th;
@@ -222,72 +221,115 @@ void inds(monhoc m[], int sl, int x, int& y)
 	y = 1;
 }
 
+void buble(monhoc [], int, int);
+
 //them mon hoc
-void them(monhoc m[], int& sl)
+void them(monhoc m[], int& sl,int sx)
 {
-	sl++;
 	int vt = 1, trung = 0;
 	char yn = 'n';
 
 	do {
+		sl++;
 		system("cls");
 		if (sl == 10)
 			cout << "Danh sach da day!";
 		else
 		{
-			do {
-				system("cls");
-				if (vt<1 || vt>sl)
-					cout << "vi tri khong hop le!\nvui long nhap lai";
-				cout << "\n\nchon vi tri muon them: ";
-				cin >> vt;
-				cin.ignore();
-			} while (vt<1 || vt>sl);
-
-			for (int i = sl - 1; i >= vt; i--)
-				m[i] = m[i - 1];
-
-			do {
-				trung = 0;
-
-				cout << "MSMH: ";
-				cin >> m[vt - 1].msmh;
-				cout << "Ten mon hoc: ";
-				cin >> m[vt - 1].ten;
-				cout << "So tin chi: ";
-				cin >> m[vt - 1].stc;
-				cout << "So gio ly thuyet: ";
-				cin >> m[vt - 1].lt;
-				cout << "So gio thuc hanh: ";
-				cin >> m[vt - 1].th;
-				cout << "So gio tu hoc: ";
-				cin >> m[vt - 1].tuh;
-
-				for (int i = 0; i < sl; i++)
-				{
-					if (vt - 1 == i) continue;
-					else if (strcmp(m[vt - 1].msmh, m[i].msmh) == 0 || strcmp(m[vt - 1].ten, m[i].ten) == 0)
-						trung = 1;
-				}
-
-				if (trung == 1)
-				{
-					cout << "\nDu lieu da nhap bi trung msmh hoac ten mon hoc!\nVui long nhap lai";
-					stop = _getch();
+			if (sx == 0)
+			{
+				do {
 					system("cls");
-				}
+					if (vt<1 || vt>sl)
+						cout << "vi tri khong hop le!\nvui long nhap lai";
+					cout << "\n\nchon vi tri muon them: ";
+					cin >> vt;
+					cin.ignore();
+				} while (vt<1 || vt>sl);
 
-			} while (trung == 1);
+				for (int i = sl - 1; i >= vt; i--)
+					m[i] = m[i - 1];
 
+				do {
+					trung = 0;
+
+					cout << "MSMH: ";
+					cin.getline(m[vt - 1].msmh, 6);
+					cout << "Ten mon hoc: ";
+					cin.getline(m[vt - 1].ten, 10);
+					cout << "So tin chi: ";
+					cin >> m[vt - 1].stc;
+					cout << "So gio ly thuyet: ";
+					cin >> m[vt - 1].lt;
+					cout << "So gio thuc hanh: ";
+					cin >> m[vt - 1].th;
+					cout << "So gio tu hoc: ";
+					cin >> m[vt - 1].tuh;
+
+					for (int i = 0; i < sl; i++)
+					{
+						if (vt - 1 == i) continue;
+						else if (strcmp(m[vt - 1].msmh, m[i].msmh) == 0 || strcmp(m[vt - 1].ten, m[i].ten) == 0)
+							trung = 1;
+					}
+
+					if (trung == 1)
+					{
+						cout << "\nDu lieu da nhap bi trung msmh hoac ten mon hoc!\nVui long nhap lai";
+						stop = _getch();
+						system("cls");
+					}
+
+				} while (trung == 1);
+			}
+			else
+			{
+				do {
+					trung = 0;
+
+					cout << "MSMH: ";
+					cin.getline(m[sl-1].msmh, 6);
+					cout << "Ten mon hoc: ";
+					cin.getline(m[sl - 1].ten, 10);
+					cout << "So tin chi: ";
+					cin >> m[sl - 1].stc;
+					cout << "So gio ly thuyet: ";
+					cin >> m[sl - 1].lt;
+					cout << "So gio thuc hanh: ";
+					cin >> m[sl - 1].th;
+					cout << "So gio tu hoc: ";
+					cin >> m[sl - 1].tuh;
+					cin.ignore();
+
+					for (int i = 0; i < sl; i++)
+					{
+						if (sl - 1 == i) continue;
+						else if (strcmp(m[sl - 1].msmh, m[i].msmh) == 0 || strcmp(m[sl - 1].ten, m[i].ten) == 0)
+							trung = 1;
+					}
+					if (trung == 1)
+					{
+						cout << "\nDu lieu da nhap bi trung msmh hoac ten mon hoc!\nVui long nhap lai";
+						stop = _getch();
+						system("cls");
+					}
+				} while (trung == 1);
+			}
 			cout << "\nCo them tiep khong (Y/N): ";
 			cin >> yn;
+			cin.ignore();
+		}
+		if (sx != 0)
+		{
+			buble(m, sl, sx);
+			cout << "\nDa tu dong sap xep!";
 		}
 	} while (yn == 'y' || yn == 'Y');
 
-	cout << "\n Nhan phim bat ki de quay ve menu chinh...";
+	cout << "\nDa them thanh cong! Nhan phim bat ki de quay ve menu chinh";
 }
 
-//xoamonhoc
+//xoa mon hoc
 void xoa(monhoc m[], int& sl)
 {
 	int vt = 1;
@@ -912,6 +954,7 @@ void tk_liner(monhoc m[], int sl, int x, int y)
 			} while (chon2 != 4);
 			sl2 = 0;
 		}
+		sl2 = 0;
 	} while (chon1 != 7);
 }
 
@@ -923,8 +966,8 @@ void tk_binary(monhoc m[], int sl, int& sx, int x, int y)
 
 	if (sx == 0)
 		cout << "Danh sach chua sap xep, vui long sap xep truoc khi dung tim kiem binary!";
-		
-	else 
+
+	else
 		do {
 			system("cls");
 			inmn(mn_tk_bn, size(mn_tk_bn), x, y);
@@ -985,7 +1028,7 @@ void tk_binary(monhoc m[], int sl, int& sx, int x, int y)
 				cout << "Nhap ten mon hoc can tim: ";
 				cin.getline(chu, 6);
 
-				if (sx == 1)
+				if (sx == 2)
 				{
 					while (d < c)
 					{
@@ -1003,7 +1046,7 @@ void tk_binary(monhoc m[], int sl, int& sx, int x, int y)
 					}
 				}
 
-				if (sx == -1)
+				if (sx == -2)
 				{
 					while (d < c)
 					{
@@ -1040,6 +1083,12 @@ void tk(monhoc m[], int sl, int& sx)
 		system("cls");
 		inmn(mn_tk, size(mn_tk), xd, yd);
 		cin >> chon;
+		if (chon == 3)
+		{
+			xy(xd + 3.25 * d, yd + 12);
+			cout << "Nhan phim bat ki de tiep tuc...";
+			break;
+		}
 
 		switch (chon)
 		{
@@ -1050,7 +1099,10 @@ void tk(monhoc m[], int sl, int& sx)
 			break;
 		case 2:
 			system("cls");
-			tk_binary(m, sl, sx, xd, yd);
+			if ((sx >= -2 || sx <= 2) && sx != 0)
+				tk_binary(m, sl, sx, xd, yd);
+			else
+				cout << "Vui long sap xep msmh hoac ten mon hoc de su dung tim kiem binary!";
 			stop = _getch();
 		}
 	} while (chon != 3);
@@ -1066,12 +1118,676 @@ void swap(monhoc& m, monhoc& n)
 //sap xep buble
 void buble(monhoc m[], int sl, int sx)
 {
-	if (sx == 1)
-	{
-		
-	}
+	if (sx>0)
+		switch (sx)
+		{
+		case 1:
+			for (int i = 0; i < sl; i++)
+				for (int j = sl - 1; j > i; j--)
+					if (strcmp(m[j].msmh, m[j - 1].msmh) < 0)
+						swap(m[j], m[j - 1]);
+			break;
+		case 2:
+			for (int i = 0; i < sl; i++)
+				for (int j = sl - 1; j > i; j--)
+					if (m[j].stc < m[j - 1].stc)
+						swap(m[j], m[j - 1]);
+			break;
+		case 3:
+			for (int i = 0; i < sl; i++)
+				for (int j = sl - 1; j > i; j--)
+					if (m[j].lt < m[j - 1].lt)
+						swap(m[j], m[j - 1]);
+			break;
+		case 4:
+			for (int i = 0; i < sl; i++)
+				for (int j = sl - 1; j > i; j--)
+					if (m[j].th < m[j - 1].th)
+						swap(m[j], m[j - 1]);
+			break;
+		case 5:
+			for (int i = 0; i < sl; i++)
+				for (int j = sl - 1; j > i; j--)
+					if (m[j].tuh < m[j - 1].tuh)
+						swap(m[j], m[j - 1]);
+		}
+	else
+		switch (sx)
+		{
+		case -1:
+			for (int i = 0; i < sl; i++)
+				for (int j = sl - 1; j > i; j--)
+					if (strcmp(m[j].msmh, m[j - 1].msmh) > 0)
+						swap(m[j], m[j - 1]);
+			break;
+		case -2:
+			for (int i = 0; i < sl; i++)
+				for (int j = sl - 1; j > i; j--)
+					if (m[j].stc > m[j - 1].stc)
+						swap(m[j], m[j - 1]);
+			break;
+		case -3:
+			for (int i = 0; i < sl; i++)
+				for (int j = sl - 1; j > i; j--)
+					if (m[j].lt > m[j - 1].lt)
+						swap(m[j], m[j - 1]);
+			break;
+		case -4:
+			for (int i = 0; i < sl; i++)
+				for (int j = sl - 1; j > i; j--)
+					if (m[j].th > m[j - 1].th)
+						swap(m[j], m[j - 1]);
+			break;
+		case -5:
+			for (int i = 0; i < sl; i++)
+				for (int j = sl - 1; j > i; j--)
+					if (m[j].tuh > m[j - 1].tuh)
+						swap(m[j], m[j - 1]);
+		}
 }
 
+//sap xep shaker
+void shaker(monhoc m[], int sl, int sx)
+{
+	int l = 0, r = sl - 1, k = sl - 1;
+
+	if (sx > 0)
+		switch (sx)
+		{
+		case 1:
+			while (l < r)
+			{
+				for (int i = l; i < r; i++)
+				{
+					if (strcmp(m[i].msmh, m[i + 1].msmh) > 0)
+					{
+						swap(m[i], m[i + 1]);
+						k = i;
+					}
+				}
+				r = k;
+
+				for (int i = r; i > l; i--)
+				{
+					if (strcmp(m[i].msmh, m[i - 1].msmh) < 0)
+					{
+						swap(m[i], m[i - 1]);
+						k = i;
+					}
+				}
+				l = k;
+			}
+			break;
+		case 2:
+			while (l < r)
+			{
+				for (int i = l; i < r; i++)
+				{
+					if (m[i].stc > m[i + 1].stc)
+					{
+						swap(m[i], m[i + 1]);
+						k = i;
+					}
+				}
+				r = k;
+
+				for (int i = r; i > l; i--)
+				{
+					if (m[i].stc < m[i - 1].stc)
+					{
+						swap(m[i], m[i - 1]);
+						k = i;
+					}
+				}
+				l = k;
+			}
+			break;
+		case 3:
+			while (l < r)
+			{
+				for (int i = l; i < r; i++)
+				{
+					if (m[i].lt > m[i + 1].lt)
+					{
+						swap(m[i], m[i + 1]);
+						k = i;
+					}
+				}
+				r = k;
+
+				for (int i = r; i > l; i--)
+				{
+					if (m[i].lt < m[i - 1].lt)
+					{
+						swap(m[i], m[i - 1]);
+						k = i;
+					}
+				}
+				l = k;
+			}
+			break;
+		case 4:
+			while (l < r)
+			{
+				for (int i = l; i < r; i++)
+				{
+					if (m[i].th > m[i + 1].th)
+					{
+						swap(m[i], m[i + 1]);
+						k = i;
+					}
+				}
+				r = k;
+
+				for (int i = r; i > l; i--)
+				{
+					if (m[i].th < m[i - 1].th)
+					{
+						swap(m[i], m[i - 1]);
+						k = i;
+					}
+				}
+				l = k;
+			}
+			break;
+		case 5:
+			while (l < r)
+			{
+				for (int i = l; i < r; i++)
+				{
+					if (m[i].tuh > m[i + 1].tuh)
+					{
+						swap(m[i], m[i + 1]);
+						k = i;
+					}
+				}
+				r = k;
+
+				for (int i = r; i > l; i--)
+				{
+					if (m[i].tuh < m[i - 1].tuh)
+					{
+						swap(m[i], m[i - 1]);
+						k = i;
+					}
+				}
+				l = k;
+			}
+		}
+	else
+		switch (sx)
+		{
+		case -1:
+			while (l < r)
+			{
+				for (int i = l; i < r; i++)
+				{
+					if (strcmp(m[i].msmh, m[i + 1].msmh) < 0)
+					{
+						swap(m[i], m[i + 1]);
+						k = i;
+					}
+				}
+				r = k;
+
+				for (int i = r; i > l; i--)
+				{
+					if (strcmp(m[i].msmh, m[i - 1].msmh) > 0)
+					{
+						swap(m[i], m[i - 1]);
+						k = i;
+					}
+				}
+				l = k;
+			}
+			break;
+		case -2:
+			while (l < r)
+			{
+				for (int i = l; i < r; i++)
+				{
+					if (m[i].stc < m[i + 1].stc)
+					{
+						swap(m[i], m[i + 1]);
+						k = i;
+					}
+				}
+				r = k;
+
+				for (int i = r; i > l; i--)
+				{
+					if (m[i].stc > m[i - 1].stc)
+					{
+						swap(m[i], m[i - 1]);
+						k = i;
+					}
+				}
+				l = k;
+			}
+			break;
+		case -3:
+			while (l < r)
+			{
+				for (int i = l; i < r; i++)
+				{
+					if (m[i].lt < m[i + 1].lt)
+					{
+						swap(m[i], m[i + 1]);
+						k = i;
+					}
+				}
+				r = k;
+
+				for (int i = r; i > l; i--)
+				{
+					if (m[i].lt > m[i - 1].lt)
+					{
+						swap(m[i], m[i - 1]);
+						k = i;
+					}
+				}
+				l = k;
+			}
+			break;
+		case -4:
+			while (l < r)
+			{
+				for (int i = l; i < r; i++)
+				{
+					if (m[i].th < m[i + 1].th)
+					{
+						swap(m[i], m[i + 1]);
+						k = i;
+					}
+				}
+				r = k;
+
+				for (int i = r; i > l; i--)
+				{
+					if (m[i].th > m[i - 1].th)
+					{
+						swap(m[i], m[i - 1]);
+						k = i;
+					}
+				}
+				l = k;
+			}
+			break;
+		case -5:
+			while (l < r)
+			{
+				for (int i = l; i < r; i++)
+				{
+					if (m[i].tuh < m[i + 1].tuh)
+					{
+						swap(m[i], m[i + 1]);
+						k = i;
+					}
+				}
+				r = k;
+
+				for (int i = r; i > l; i--)
+				{
+					if (m[i].tuh > m[i - 1].tuh)
+					{
+						swap(m[i], m[i - 1]);
+						k = i;
+					}
+				}
+				l = k;
+			}
+		}
+}
+
+//sap xep selection
+void selection(monhoc m[], int sl, int sx)
+{
+	int min;
+
+	if (sx > 0)
+		switch (sx)
+		{
+		case 1:
+			for (int i = 0; i < sl; i++)
+			{
+				min = i;
+				for (int j = i; j < sl; j++)
+				{
+					if (strcmp(m[j].msmh, m[min].msmh) < 0)
+						min = j;
+				}
+				swap(m[min], m[i]);
+			}
+			break;
+		case 2:
+			for (int i = 0; i < sl; i++)
+			{
+				min = i;
+				for (int j = i; j < sl; j++)
+				{
+					if (m[j].stc < m[min].stc)
+						min = j;
+				}
+				swap(m[min], m[i]);
+			}
+			break;
+		case 3:
+			for (int i = 0; i < sl; i++)
+			{
+				min = i;
+				for (int j = i; j < sl; j++)
+				{
+					if (m[j].lt < m[min].lt)
+						min = j;
+				}
+				swap(m[min], m[i]);
+			}
+			break;
+		case 4:
+			for (int i = 0; i < sl; i++)
+			{
+				min = i;
+				for (int j = i; j < sl; j++)
+				{
+					if (m[j].th < m[min].th)
+						min = j;
+				}
+				swap(m[min], m[i]);
+			}
+			break;
+		case 5:
+			for (int i = 0; i < sl; i++)
+			{
+				min = i;
+				for (int j = i; j < sl; j++)
+				{
+					if (m[j].tuh < m[min].tuh)
+						min = j;
+				}
+				swap(m[min], m[i]);
+			}
+		}
+	else
+		switch (sx)
+		{
+		case -1:
+			for (int i = 0; i < sl; i++)
+			{
+				min = i;
+				for (int j = i; j < sl; j++)
+				{
+					if (strcmp(m[j].msmh, m[min].msmh) > 0)
+						min = j;
+				}
+				swap(m[min], m[i]);
+			}
+			break;
+		case -2:
+			for (int i = 0; i < sl; i++)
+			{
+				min = i;
+				for (int j = i; j < sl; j++)
+				{
+					if (m[j].stc > m[min].stc)
+						min = j;
+				}
+				swap(m[min], m[i]);
+			}
+			break;
+		case -3:
+			for (int i = 0; i < sl; i++)
+			{
+				min = i;
+				for (int j = i; j < sl; j++)
+				{
+					if (m[j].lt > m[min].lt)
+						min = j;
+				}
+				swap(m[min], m[i]);
+			}
+			break;
+		case -4:
+			for (int i = 0; i < sl; i++)
+			{
+				min = i;
+				for (int j = i; j < sl; j++)
+				{
+					if (m[j].th > m[min].th)
+						min = j;
+				}
+				swap(m[min], m[i]);
+			}
+			break;
+		case -5:
+			for (int i = 0; i < sl; i++)
+			{
+				min = i;
+				for (int j = i; j < sl; j++)
+				{
+					if (m[j].tuh > m[min].tuh)
+						min = j;
+				}
+				swap(m[min], m[i]);
+			}
+		}
+}
+
+//sap xep intersertion
+void intersertion(monhoc m[], int sl, int sx)
+{
+	int j;
+	monhoc x;
+
+	if (sx > 0)
+		switch (sx)
+		{
+		case 1:
+			for (int i = 0; i < sl; i++)
+			{
+				j = i;
+				x = m[i];
+				while (j > 0 && (strcmp(x.msmh,m[j - 1].msmh) < 0))
+				{
+					m[j] = m[j - 1];
+					j--;
+				}
+				m[j] = x;
+			}
+			break;
+		case 2:
+			for (int i = 0; i < sl; i++)
+			{
+				j = i;
+				x = m[i];
+				while (j > 0 && x.stc < m[j - 1].stc)
+				{
+					m[j] = m[j - 1];
+					j--;
+				}
+				m[j] = x;
+			}
+			break;
+		case 3:
+			for (int i = 0; i < sl; i++)
+			{
+				j = i;
+				x = m[i];
+				while (j > 0 && x.lt < m[j - 1].lt)
+				{
+					m[j] = m[j - 1];
+					j--;
+				}
+				m[j] = x;
+			}
+			break;
+		case 4:
+			for (int i = 0; i < sl; i++)
+			{
+				j = i;
+				x = m[i];
+				while (j > 0 && x.th < m[j - 1].th)
+				{
+					m[j] = m[j - 1];
+					j--;
+				}
+				m[j] = x;
+			}
+			break;
+		case 5:
+			for (int i = 0; i < sl; i++)
+			{
+				j = i;
+				x = m[i];
+				while (j > 0 && x.tuh < m[j - 1].tuh)
+				{
+					m[j] = m[j - 1];
+					j--;
+				}
+				m[j] = x;
+			}
+		}
+	else
+		switch (sx)
+		{
+		case -1:
+			for (int i = 0; i < sl; i++)
+			{
+				j = i;
+				x = m[i];
+				while (j > 0 && (strcmp(x.msmh, m[j - 1].msmh) > 0))
+				{
+					m[j] = m[j - 1];
+					j--;
+				}
+				m[j] = x;
+			}
+			break;
+		case -2:
+			for (int i = 0; i < sl; i++)
+			{
+				j = i;
+				x = m[i];
+				while (j > 0 && x.stc > m[j - 1].stc)
+				{
+					m[j] = m[j - 1];
+					j--;
+				}
+				m[j] = x;
+			}
+			break;
+		case -3:
+			for (int i = 0; i < sl; i++)
+			{
+				j = i;
+				x = m[i];
+				while (j > 0 && x.lt > m[j - 1].lt)
+				{
+					m[j] = m[j - 1];
+					j--;
+				}
+				m[j] = x;
+			}
+			break;
+		case -4:
+			for (int i = 0; i < sl; i++)
+			{
+				j = i;
+				x = m[i];
+				while (j > 0 && x.th > m[j - 1].th)
+				{
+					m[j] = m[j - 1];
+					j--;
+				}
+				m[j] = x;
+			}
+			break;
+		case -5:
+			for (int i = 0; i < sl; i++)
+			{
+				j = i;
+				x = m[i];
+				while (j > 0 && x.tuh > m[j - 1].tuh)
+				{
+					m[j] = m[j - 1];
+					j--;
+				}
+				m[j] = x;
+			}
+		}
+}
+
+//sap xep interchange
+void interchange(monhoc m[], int sl, int sx)
+{
+	if (sx > 0)
+		switch (sx)
+		{
+		case 1:
+			for (int i = 0; i < sl; i++)
+				for (int j = i; j < sl; j++)
+					if (strcmp(m[i].msmh, m[j].msmh) > 0)
+						swap(m[i], m[j]);
+			break;
+		case 2:
+			for (int i = 0; i < sl; i++)
+				for (int j = i; j < sl; j++)
+					if (m[i].stc > m[j].stc)
+						swap(m[i], m[j]);
+			break;
+		case 3:
+			for (int i = 0; i < sl; i++)
+				for (int j = i; j < sl; j++)
+					if (m[i].lt > m[j].lt)
+						swap(m[i], m[j]);
+			break;
+		case 4:
+			for (int i = 0; i < sl; i++)
+				for (int j = i; j < sl; j++)
+					if (m[i].th > m[j].th)
+						swap(m[i], m[j]);
+			break;
+		case 5:
+			for (int i = 0; i < sl; i++)
+				for (int j = i; j < sl; j++)
+					if (m[i].tuh > m[j].tuh)
+						swap(m[i], m[j]);
+		}
+	else
+		switch (sx)
+		{
+		case -1:
+			for (int i = 0; i < sl; i++)
+				for (int j = i; j < sl; j++)
+					if (strcmp(m[i].msmh, m[j].msmh) < 0)
+						swap(m[i], m[j]);
+			break;
+		case -2:
+			for (int i = 0; i < sl; i++)
+				for (int j = i; j < sl; j++)
+					if (m[i].stc < m[j].stc)
+						swap(m[i], m[j]);
+			break;
+		case -3:
+			for (int i = 0; i < sl; i++)
+				for (int j = i; j < sl; j++)
+					if (m[i].lt < m[j].lt)
+						swap(m[i], m[j]);
+			break;
+		case -4:
+			for (int i = 0; i < sl; i++)
+				for (int j = i; j < sl; j++)
+					if (m[i].th < m[j].th)
+						swap(m[i], m[j]);
+			break;
+		case -5:
+			for (int i = 0; i < sl; i++)
+				for (int j = i; j < sl; j++)
+					if (m[i].tuh < m[j].tuh)
+						swap(m[i], m[j]);
+		}
+}
+
+//sap xep 
 void sapxep(monhoc m[], int sl, int& sx)
 {
 	int chon1, chon2, chon3;
@@ -1082,34 +1798,76 @@ void sapxep(monhoc m[], int sl, int& sx)
 		cin >> chon1;
 		if (chon1 == 6)
 		{
-			cout << "Nhan phim bat ki de tiep tuc";
+			xy(xd + 3.25 * d, yd + 12);
+			cout << "Nhan phim bat ki de tiep tuc...";
+			stop = _getch();
 			break;
 		}
 		do {
 			system("cls");
 			inmn(mn_sx2, size(mn_sx2), xd, yd);
 			cin >> chon2;
-			if (chon2 == 7)break;
+			if (chon2 == 6)
+			{
+				xy(xd + 3.25 * d, yd + 12);
+				cout << "Nhan phim bat ki de tiep tuc...";
+				stop = _getch();
+				break;
+			}
 
 			do {
 				system("cls");
 				inmn(mn_sx3, size(mn_sx3), xd, yd);
 				cin >> chon3;
-				if (chon3 == 3)break;
+				if (chon3 == 3)
+				{
+					xy(xd + 3.25 * d, yd + 12);
+					cout << "Nhan phim bat ki de tiep tuc...";
+					stop = _getch();
+					break;
+				}
 
-				if (chon3 == 1) sx = 1;
-				else if (chon3 == 2) sx = -1;
+				sx = chon2;
+				if (chon3 == 2)
+					sx *= -1;
 
 				switch (chon1)
 				{
 				case 1:
+					buble(m, sl, sx);
+					xy(xd + 1.5 * d, yd + 12);
+					cout << "Da sap xep thanh cong! Nhan phim bat ki de tro lai man hinh chinh";
+					stop = _getch();
+					break;
 				case 2:
+					shaker(m, sl, sx);
+					xy(xd + 1.5 * d, yd + 12);
+					cout << "Da sap xep thanh cong! Nhan phim bat ki de tro lai man hinh chinh";
+					stop = _getch();
+					break;
 				case 3:
+					selection(m, sl, sx);
+					xy(xd + 1.5 * d, yd + 12);
+					cout << "Da sap xep thanh cong! Nhan phim bat ki de tro lai man hinh chinh";
+					stop = _getch();
+					break;
 				case 4:
+					intersertion(m, sl, sx);
+					xy(xd + 1.5 * d, yd + 12);
+					cout << "Da sap xep thanh cong! Nhan phim bat ki de tro lai man hinh chinh";
+					stop = _getch();
+					break;
 				case 5:
+					interchange(m, sl, sx);
+					xy(xd + 1.5 * d, yd + 12);
+					cout << "Da sap xep thanh cong! Nhan phim bat ki de tro lai man hinh chinh";
+					stop = _getch();
 				}
+				break;
 			} while (chon3 != 3);
-		} while (chon2 != 7);
+			break;
+		} while (chon2 != 6);
+		break;
 	} while (chon1 != 6);
 }
 
@@ -1118,6 +1876,13 @@ int main()
 	monhoc ds[10];
 	string filein = "thongtin.txt";
 	int sl, chon1, chon2, sx = 0;
+
+	xy(xd + 1.5 * d, yd + 10.5);
+	cout << "Vui long chinh co chu len 36 de co trai nghiem tot nhat! Xin cam on";
+	xy(xd + 2.9 * d, yd + 11.5);
+	cout << "Nhan phim bat ki de bat dau chuong trinh";
+	stop = _getch();
+	system("cls");
 
 	if (readfile(filein, ds, sl) == 1)
 	{
@@ -1129,6 +1894,7 @@ int main()
 		system("cls");
 		inmn(mn, size(mn), xd, yd);
 		cin >> chon1;
+		cin.ignore();
 		switch (chon1)
 		{
 		case 1:
@@ -1138,7 +1904,7 @@ int main()
 			break;
 		case 2:
 			system("cls");
-			them(ds, sl);
+			them(ds, sl, sx);
 			stop = _getch();
 			break;
 		case 3:
@@ -1159,7 +1925,7 @@ int main()
 		case 6:
 			system("cls");
 			sapxep(ds, sl, sx);
-			stop = _getch();
+
 		}
 	} while (chon1 != 7);
 
