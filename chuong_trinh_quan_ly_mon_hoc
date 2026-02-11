@@ -67,7 +67,10 @@ string mn[] = {
 	"4. Cap nhat mon hoc",
 	"5. Tim kiem mon hoc",
 	"6. Xap sep mon hoc",
-	"7. Thoat chuong trinh"
+	"7. Thong ke thong tin",
+	"8. Loc mon hoc",
+	"9. Thoat chuong trinh"
+
 };
 
 //menu cap nhat
@@ -152,6 +155,34 @@ string mn_sx3[] = {
 	"CHON LOAI XAP SEP",
 	"1. Tang dan",
 	"2. Giam dan",
+	"3. Thoat"
+};
+
+//menu thong ke
+string mn_thongke[] = {
+	"CHON THONG TIN MUON THONG KE",
+	"1. So tin chi",
+	"2. So gio ly thuyet",
+	"3. So gio thuc hanh",
+	"4. So gio tu hoc",
+	"5. Thoat"
+};
+
+//menu loc 1
+string mn_loc1[] = {
+	"CHON THONG TIN MUON LOC",
+	"1. So tin chi",
+	"2. So gio ly thuyet",
+	"3. So gio thuc hanh",
+	"4. So gio tu hoc",
+	"5. Thoat"
+};
+
+//menu loc 2
+string mn_loc2[] = {
+	"CHON CACH THUC LOC",
+	"1. Lon hon hoac bang",
+	"2. Nho hon hoac bang",
 	"3. Thoat"
 };
 
@@ -2239,6 +2270,268 @@ void sapxep(monhoc m[], int sl, int& sx)
 	} while (chon1 != 6);
 }
 
+//thong ke
+void thongke(monhoc m[], int sl)
+{
+	int tong = 0, chon;
+
+	do {
+		system("cls");
+		inmn(mn_thongke, size(mn_thongke), xd, yd);
+		cin >> chon;
+		cin.ignore();
+
+		switch (chon)
+		{
+		case 1:
+			system("cls");
+			for (int i = 0; i < sl; i++)
+				tong += m[i].stc;
+			cout << "tong so tin chi trong danh sach la " << tong;
+			stop = _getch();
+			break;
+		case 2:
+			system("cls");
+			for (int i = 0; i < sl; i++)
+				tong += m[i].lt;
+			cout << "tong so gio ly thuyet trong danh sach la " << tong;
+			stop = _getch();
+			break;
+		case 3:
+			system("cls");
+			for (int i = 0; i < sl; i++)
+				tong += m[i].th;
+			cout << "tong so gio thuc hanh trong danh sach la " << tong;
+			stop = _getch();
+			break;
+		case 4:
+			system("cls");
+			for (int i = 0; i < sl; i++)
+				tong += m[i].tuh;
+			cout << "tong so gio tu hoc trong danh sach la " << tong;
+			stop = _getch();
+		}
+		if (chon == 5)
+		{
+			xy(xd + 3.4 * d, yd + 10.5);
+			cout << "Nhan phim bat kì de tiep tuc...";
+		}
+	} while (chon != 5);
+}
+
+//loc thong tin
+void loc(monhoc m[], int sl)
+{
+	int chon1, chon2, so, tt, luu[100], sl2 = -1;
+
+	do {
+		system("cls");
+		inmn(mn_loc1, size(mn_loc1), xd, yd);
+		cin >> chon1;
+		cin.ignore();
+		if (chon1 == 5)break;
+		do {
+			system("cls");
+			inmn(mn_loc2, size(mn_loc2), xd, yd);
+			cin >> chon2;
+			cin.ignore();
+			if (chon2 == 3)break;
+
+			switch (chon1)
+			{
+			case 1:
+				system("cls");
+				cout << "Nhap so tin chi: ";
+				cin >> so;
+
+				if (chon2 == 1)
+				{
+					for (int i = 0; i < sl; i++)
+					{
+						if (m[i].stc >= so)
+						{
+							sl2++;
+							luu[sl2 - 1] = i;
+							tt = 1;
+						}
+					}
+				}
+				else
+				{
+					for (int i = 0; i < sl; i++)
+					{
+						if (m[i].stc <= so)
+						{
+							sl2++;
+							luu[sl2 - 1] = i;
+							tt = 1;
+						}
+					}
+				}
+
+				if (tt == 1)
+				{
+					yd += 2;
+					intd(xd, yd);
+					for (int i = 0; i < sl2; i++)
+					{
+						xy(xd, yd);
+						cout << luu[i] + 1;
+						inmh(m[luu[i]], xd, yd);
+						yd++;
+					}
+					yd = 1;
+				}
+				else
+					cout << "Khong tim thay trong danh sanh!";
+				stop = _getch();
+				break;
+			case 2:
+				system("cls");
+				cout << "Nhap so gio ly thuyet: ";
+				cin >> so;
+
+				if (chon2 == 1)
+				{
+					for (int i = 0; i < sl; i++)
+					{
+						if (m[i].lt >= so)
+						{
+							sl2++;
+							luu[sl2 - 1] = i;
+							tt = 1;
+						}
+					}
+				}
+				else
+				{
+					for (int i = 0; i < sl; i++)
+					{
+						if (m[i].lt <= so)
+						{
+							sl2++;
+							luu[sl2 - 1] = i;
+							tt = 1;
+						}
+					}
+				}
+
+				if (tt == 1)
+				{
+					yd += 2;
+					intd(xd, yd);
+					for (int i = 0; i < sl2; i++)
+					{
+						xy(xd, yd);
+						cout << luu[i] + 1;
+						inmh(m[luu[i]], xd, yd);
+						yd++;
+					}
+					yd = 1;
+				}
+				else
+					cout << "Khong tim thay trong danh sanh!";
+				stop = _getch();
+				break;
+			case 3:
+				system("cls");
+				cout << "Nhap so gio thuc hanh: ";
+				cin >> so;
+
+				if (chon2 == 1)
+				{
+					for (int i = 0; i < sl; i++)
+					{
+						if (m[i].th >= so)
+						{
+							sl2++;
+							luu[sl2 - 1] = i;
+							tt = 1;
+						}
+					}
+				}
+				else
+				{
+					for (int i = 0; i < sl; i++)
+					{
+						if (m[i].th <= so)
+						{
+							sl2++;
+							luu[sl2 - 1] = i;
+							tt = 1;
+						}
+					}
+				}
+
+				if (tt == 1)
+				{
+					yd += 2;
+					intd(xd, yd);
+					for (int i = 0; i < sl2; i++)
+					{
+						xy(xd, yd);
+						cout << luu[i] + 1;
+						inmh(m[luu[i]], xd, yd);
+						yd++;
+					}
+					yd = 1;
+				}
+				else
+					cout << "Khong tim thay trong danh sanh!";
+				stop = _getch();
+				break;
+			case 4:
+				system("cls");
+				cout << "Nhap so gio tu hoc: ";
+				cin >> so;
+
+				if (chon2 == 1)
+				{
+					for (int i = 0; i < sl; i++)
+					{
+						if (m[i].tuh >= so)
+						{
+							sl2++;
+							luu[sl2 - 1] = i;
+							tt = 1;
+						}
+					}
+				}
+				else
+				{
+					for (int i = 0; i < sl; i++)
+					{
+						if (m[i].tuh <= so)
+						{
+							sl2++;
+							luu[sl2 - 1] = i;
+							tt = 1;
+						}
+					}
+				}
+
+				if (tt == 1)
+				{
+					yd += 2;
+					intd(xd, yd);
+					for (int i = 0; i < sl2; i++)
+					{
+						xy(xd, yd);
+						cout << luu[i] + 1;
+						inmh(m[luu[i]], xd, yd);
+						yd++;
+					}
+					yd = 1;
+				}
+				else
+					cout << "Khong tim thay trong danh sanh!";
+				stop = _getch();
+			}
+			tt = 0, sl2 = -1;
+		} while (chon2 != 3);
+	} while (chon1 != 5);
+}
+
 int main()
 {
 	monhoc ds[100];
@@ -2294,9 +2587,18 @@ int main()
 		case 6:
 			system("cls");
 			sapxep(ds, sl, sx);
-
+			break;
+		case 7:
+			system("cls");
+			thongke(ds, sl);
+			stop = _getch();
+			break;
+		case 8:
+			system("cls");
+			loc(ds, sl);
+			stop = _getch();
 		}
-	} while (chon1 != 7);
+	} while (chon1 != 9);
 
 	system("cls");
 	xy(xd + 3.4 * d, yd + 10.5);
