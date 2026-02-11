@@ -142,7 +142,7 @@ string mn_sx[] = {
 string mn_sx2[] = {
 	"CHON SAP XEP THEO",
 	"1. MSMH",
-	"2. Ten mon hoc"
+	"2. Ten mon hoc",
 	"3. So tin chi",
 	"4. So gio ly thuyet",
 	"5. So gio thuc hanh",
