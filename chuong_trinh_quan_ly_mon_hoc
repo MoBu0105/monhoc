@@ -186,7 +186,7 @@ void intd(int x, int& y)
 	cout << endl;
 	for (int i = 0; i < 111; i++)
 		cout << "-";
-	y+=2;
+	y += 2;
 
 	xy(x, y);
 	cout << "STT";
@@ -206,7 +206,7 @@ void intd(int x, int& y)
 	cout << endl;
 	for (int i = 0; i < 111; i++)
 		cout << "-";
-	y+=2;
+	y += 2;
 }
 
 //in 1 mon hoc
@@ -237,7 +237,7 @@ void inds(monhoc m[], int sl, int x, int& y)
 		cout << i + 1;
 		inmh(m[i], x, y);
 		y++;
-	} 
+	}
 
 	cout << endl;
 	for (int i = 0; i < 111; i++)
@@ -1006,249 +1006,317 @@ void tk_binary(monhoc m[], int sl, int& sx, int x, int y)
 			}
 			system("cls");
 
-			switch (sx)
+			switch (chon)
 			{
 			case 1:
+				if ((sx != 1) && (sx != -1))
+				{
+					xy(xd + 20, yd + 10.5);
+					cout << "Vui long sap xep danh sach theo MSMH!";
+					tt = -1;
+					stop = _getch();
+					break;
+				}
+
 				cout << "nhap MSMH can tim: ";
 				cin.getline(chu, 30);
 
-				while (d <= c)
+				if (sx == 1)
 				{
-					if (tt == 1) break;
-					else
+					while (d <= c)
 					{
-						g = (d + c) / 2;
-						if (strcmp(chu, m[g].msmh) == 0)
-							tt = 1;
-						if (strcmp(chu, m[g].msmh) > 0)
-							d = g + 1;
+						if (tt == 1) break;
 						else
-							c = g - 1;
+						{
+							g = (d + c) / 2;
+							if (strcmp(chu, m[g].msmh) == 0)
+								tt = 1;
+							if (strcmp(chu, m[g].msmh) > 0)
+								d = g + 1;
+							else
+								c = g - 1;
+						}
 					}
 				}
+				else
+				{
+					while (d <= c)
+					{
+						if (tt == 1) break;
+						else
+						{
+							g = (d + c) / 2;
+							if (strcmp(chu, m[g].msmh) == 0)
+								tt = 1;
+							if (strcmp(chu, m[g].msmh) > 0)
+								c = g - 1;
+							else
+								d = g + 1;
+						}
+					}
+				}
+				
 				break;
 			case 2:
+				if (sx != 2 && sx != -2)
+				{
+					xy(xd + 20, yd + 10.5);
+					cout << "Vui long sap xep danh sach theo ten mon hoc!";
+					tt = -1;
+					stop = _getch();
+					break;
+				}
+
 				cout << "nhap ten mon hoc can tim: ";
 				cin.getline(chu, 30);
 
-				while (d <= c)
+				if (sx == 2)
 				{
-					if (tt == 1) break;
-					else
+					while (d <= c)
 					{
-						g = (d + c) / 2;
-						if (strcmp(chu, m[g].ten) == 0)
-							tt = 1;
-						if (strcmp(chu, m[g].ten) > 0)
-							d = g + 1;
+						if (tt == 1) break;
 						else
-							c = g - 1;
+						{
+							g = (d + c) / 2;
+							if (strcmp(chu, m[g].ten) == 0)
+								tt = 1;
+							if (strcmp(chu, m[g].ten) > 0)
+								d = g + 1;
+							else
+								c = g - 1;
+						}
+					}
+				}
+				else
+				{
+					while (d <= c)
+					{
+						if (tt == 1) break;
+						else
+						{
+							g = (d + c) / 2;
+							if (strcmp(chu, m[g].msmh) == 0)
+								tt = 1;
+							if (strcmp(chu, m[g].msmh) > 0)
+								c = g - 1;
+							else
+								d = g + 1;
+						}
 					}
 				}
 				break;
 			case 3:
+				if (sx != 3 && sx != -3)
+				{
+					xy(xd + 20, yd + 10.5);
+					cout << "Vui long sap xep danh sach theo so tin chi!";
+					tt = -1;
+					stop = _getch();
+					break;
+				}
+
 				cout << "nhap so tin chi can tim: ";
 				cin >> so;
 
-				while (d <= c)
+				if (sx == 3)
 				{
-					if (tt == 1) break;
-					else
+					while (d <= c)
 					{
-						g = (d + c) / 2;
-						if (so == m[g].stc)
-							tt = 1;
-						if (so > m[g].stc)
-							d = g + 1;
+						if (tt == 1) break;
 						else
-							c = g - 1;
+						{
+							g = (d + c) / 2;
+							if (so == m[g].stc)
+								tt = 1;
+							if (so > m[g].stc)
+								d = g + 1;
+							else
+								c = g - 1;
+						}
 					}
 				}
+				else
+				{
+					while (d <= c)
+					{
+						if (tt == 1) break;
+						else
+						{
+							g = (d + c) / 2;
+							if (so == m[g].stc)
+								tt = 1;
+							if (so > m[g].stc)
+								c = g - 1;
+							else
+								d = g + 1;
+						}
+					}
+				}
+				
 				break;
 			case 4:
+				if (sx != 4 && sx != -4)
+				{
+					xy(xd + 20, yd + 10.5);
+					cout << "Vui long sap xep danh sach theo so gio ly thuyet!";
+					tt = -1;
+					stop = _getch();
+					break;
+				}
+
 				cout << "nhap so gio ly thuyet can tim: ";
 				cin >> so;
 
-				while (d <= c)
+				if (sx == 4)
 				{
-					if (tt == 1) break;
-					else
+					while (d <= c)
 					{
-						g = (d + c) / 2;
-						if (so == m[g].lt)
-							tt = 1;
-						if (so > m[g].lt)
-							d = g + 1;
+						if (tt == 1) break;
 						else
-							c = g - 1;
+						{
+							g = (d + c) / 2;
+							if (so == m[g].lt)
+								tt = 1;
+							if (so > m[g].lt)
+								d = g + 1;
+							else
+								c = g - 1;
+						}
 					}
 				}
+				else
+				{
+					while (d <= c)
+					{
+						if (tt == 1) break;
+						else
+						{
+							g = (d + c) / 2;
+							if (so == m[g].lt)
+								tt = 1;
+							if (so > m[g].lt)
+								c = g - 1;
+							else
+								d = g + 1;
+						}
+					}
+				}
+				
 				break;
 			case 5:
+				if (sx != 5 && sx != -5)
+				{
+					xy(xd + 20, yd + 10.5);
+					cout << "Vui long sap xep danh sach theo so gio thuc hanh!";
+					tt = -1;
+					stop = _getch();
+					break;
+				}
+
 				cout << "nhap so gio thu hanh can tim: ";
 				cin >> so;
 
-				while (d <= c)
+				if (sx == 5)
 				{
-					if (tt == 1) break;
-					else
+					while (d <= c)
 					{
-						g = (d + c) / 2;
-						if (so == m[g].th)
-							tt = 1;
-						if (so > m[g].th)
-							d = g + 1;
+						if (tt == 1) break;
 						else
-							c = g - 1;
+						{
+							g = (d + c) / 2;
+							if (so == m[g].th)
+								tt = 1;
+							if (so > m[g].th)
+								d = g + 1;
+							else
+								c = g - 1;
+						}
+					}
+				}
+				else
+				{
+					while (d <= c)
+					{
+						if (tt == 1) break;
+						else
+						{
+							g = (d + c) / 2;
+							if (so == m[g].th)
+								tt = 1;
+							if (so > m[g].th)
+								c = g - 1;
+							else
+								d = g + 1;
+						}
 					}
 				}
 				break;
 			case 6:
+				if (sx != 6 && sx != -6)
+				{
+					xy(xd + 20, yd + 10.5);
+					cout << "Vui long sap xep danh sach theo so gio tu hoc!";
+					tt = -1;
+					stop = _getch();
+					break;
+				}
+
 				cout << "nhap so gio tu hoc can tim: ";
 				cin >> so;
 
-				while (d <= c)
+				if (sx == 6)
 				{
-					if (tt == 1) break;
-					else
+					while (d <= c)
 					{
-						g = (d + c) / 2;
-						if (so == m[g].tuh)
-							tt = 1;
-						if (so > m[g].tuh)
-							d = g + 1;
+						if (tt == 1) break;
 						else
-							c = g - 1;
+						{
+							g = (d + c) / 2;
+							if (so == m[g].tuh)
+								tt = 1;
+							if (so > m[g].tuh)
+								d = g + 1;
+							else
+								c = g - 1;
+						}
 					}
 				}
-				break;
-			case -1:
-				cout << "nhap MSMH can tim: ";
-				cin.getline(chu, 30);
-
-				while (d <= c)
+				else
 				{
-					if (tt == 1) break;
-					else
+					while (d <= c)
 					{
-						g = (d + c) / 2;
-						if (strcmp(chu, m[g].msmh) == 0)
-							tt = 1;
-						if (strcmp(chu, m[g].msmh) > 0)
-							c = g - 1;
+						if (tt == 1) break;
 						else
-							d = g + 1;
-					}
-				}
-				break;
-			case -2:
-				cout << "nhap ten mon hoc can tim: ";
-				cin.getline(chu, 30);
-
-				while (d <= c)
-				{
-					if (tt == 1) break;
-					else
-					{
-						g = (d + c) / 2;
-						if (strcmp(chu, m[g].msmh) == 0)
-							tt = 1;
-						if (strcmp(chu, m[g].msmh) > 0)
-							c = g - 1;
-						else
-							d = g + 1;
-					}
-				}
-				break;
-			case -3:
-				cout << "nhap so tin chi can tim: ";
-				cin >> so;
-
-				while (d <= c)
-				{
-					if (tt == 1) break;
-					else
-					{
-						g = (d + c) / 2;
-						if (so == m[g].stc)
-							tt = 1;
-						if (so > m[g].stc)
-							c = g - 1;
-						else
-							d = g + 1;
-					}
-				}
-				break;
-			case -4:
-				cout << "nhap so gio ly thuyet can tim: ";
-				cin >> so;
-
-				while (d <= c)
-				{
-					if (tt == 1) break;
-					else
-					{
-						g = (d + c) / 2;
-						if (so == m[g].lt)
-							tt = 1;
-						if (so > m[g].lt)
-							c = g - 1;
-						else
-							d = g + 1;
-					}
-				}
-				break;
-			case -5:
-				cout << "nhap so gio thuc hanh can tim: ";
-				cin >> so;
-
-				while (d <= c)
-				{
-					if (tt == 1) break;
-					else
-					{
-						g = (d + c) / 2;
-						if (so == m[g].th)
-							tt = 1;
-						if (so > m[g].th)
-							c = g - 1;
-						else
-							d = g + 1;
-					}
-				}
-				break;
-			case -6:
-				cout << "nhap so gio tu hoc can tim: ";
-				cin >> so;
-
-				while (d <= c)
-				{
-					if (tt == 1) break;
-					else
-					{
-						g = (d + c) / 2;
-						if (so == m[g].tuh)
-							tt = 1;
-						if (so > m[g].tuh)
-							c = g - 1;
-						else
-							d = g + 1;
+						{
+							g = (d + c) / 2;
+							if (so == m[g].tuh)
+								tt = 1;
+							if (so > m[g].tuh)
+								c = g - 1;
+							else
+								d = g + 1;
+						}
 					}
 				}
 			}
-			d = 0, c = sl - 1, so = 0;
 
 			if (tt == 1)
+			{
 				if (sx >= -2 && sx <= 2 && sx != 0)
-					cout << "Da tim thay " << chu << " trong danh sach tai vi tri " << g+1;
+					cout << "Da tim thay " << chu << " trong danh sach tai vi tri " << g + 1;
 				else
-					cout << "Da tim thay " << so << " trong danh sach tai vi tri " << g+1;
-			else
+					cout << "Da tim thay " << so << " trong danh sach tai vi tri " << g + 1;
+			}
+			else if (tt = 0)
+			{
 				if (sx >= -2 && sx <= 2 && sx != 0)
 					cout << "Khong tim thay " << chu << " trong danh sach";
 				else
 					cout << "Khong tim thay " << so << " trong danh sach";
+			}
 
+			d = 0, c = sl - 1, so = 0, tt = 0;
+				
 			stop = _getch();
 		} while (chon != 7);
 	}
@@ -2236,4 +2304,4 @@ int main()
 
 	stop = _getch();
 	return 0;
-}
+}	
