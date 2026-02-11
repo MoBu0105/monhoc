@@ -13,7 +13,7 @@ int xd = 5, yd = 1, d = 10, stop;
 struct monhoc {
 	char msmh[6];
 	char ten[30];
-	int stc, lt, th, tuh;
+	int stc, lt, th, tuh; //so tin chi, so gio ly thuyet, so gio thuc hanh, so gio tu hoc
 };
 
 //gotoxy
@@ -292,6 +292,7 @@ void them(monhoc m[], int& sl, int sx)
 			cout << "Danh sach da day!";
 		else
 		{
+			//kiem tra danh sach da sap xep chua
 			if (sx == 0)
 			{
 				do {
@@ -322,6 +323,7 @@ void them(monhoc m[], int& sl, int sx)
 					cout << "So gio tu hoc: ";
 					cin >> m[vt - 1].tuh;
 
+					//kiem tra trung
 					for (int i = 0; i < sl; i++)
 					{
 						if (vt - 1 == i) continue;
@@ -1338,7 +1340,7 @@ void tk_binary(monhoc m[], int sl, int& sx, int x, int y)
 				else
 					cout << "Da tim thay " << so << " trong danh sach tai vi tri " << g + 1;
 			}
-			else if (tt = 0)
+			else if (tt == 0)
 			{
 				if (sx >= -2 && sx <= 2 && sx != 0)
 					cout << "Khong tim thay " << chu << " trong danh sach";
