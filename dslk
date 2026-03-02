@@ -1,0 +1,212 @@
+#include <iostream>
+#include <conio.h>
+#include <Windows.h>
+#include <string>
+#include <fstream>
+#include <sstream>
+
+using namespace std;
+
+int xd = 5, yd = 1, d = 10, stop;
+
+//Cau truc
+struct monhoc {
+	char msmh[6];
+	char ten[30];
+	int stc, lt, th, tuh; //so tin chi, so gio ly thuyet, so gio thuc hanh, so gio tu hoc
+};
+
+//gotoxy
+void xy(int x, int y)
+{
+	COORD td;
+
+	td.X = x;
+	td.Y = y;
+
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), td);
+}
+
+//in tieu de
+void intd(int x, int& y)
+{
+	xy(x + 4 * d, y);
+	cout << endl;
+	for (int i = 0; i < 111; i++)
+		cout << "-";
+
+	xy(x + 4 * d, y);
+	cout << "THONG TIN MON HOC";
+
+	cout << endl;
+	for (int i = 0; i < 111; i++)
+		cout << "-";
+	y += 2;
+
+	xy(x, y);
+	cout << "STT";
+	xy(x + 0.6 * d, y);
+	cout << "MSMH";
+	xy(x + 1.5 * d, y);
+	cout << "Ten mon hoc";
+	xy(x + 3.65 * d, y);
+	cout << "So tin chi";
+	xy(x + 4.95 * d, y);
+	cout << "So gio ly thuyet";
+	xy(x + 6.85 * d, y);
+	cout << "So gio thuc hanh";
+	xy(x + 8.75 * d, y);
+	cout << "So gio tu hoc";
+
+	cout << endl;
+	for (int i = 0; i < 111; i++)
+		cout << "-";
+	y += 2;
+}
+
+//in 1 mon hoc
+void inmh(monhoc m, int x, int& y)
+{
+	xy(x + 0.6 * d, y);
+	cout << m.msmh;
+	xy(x + 1.5 * d, y);
+	cout << m.ten;
+	xy(x + 4.15 * d, y);
+	cout << m.stc;
+	xy(x + 5.45 * d, y);
+	cout << m.lt;
+	xy(x + 7.35 * d, y);
+	cout << m.th;
+	xy(x + 9.25 * d, y);
+	cout << m.tuh;
+}
+
+//tao node
+struct node
+{
+	monhoc info;
+	node* next;
+};
+
+//con tro
+typedef node* pnode;
+
+struct linklist
+{
+	pnode dau, cuoi;
+};
+
+void initial(linklist& l)
+{
+	l.dau = nullptr;
+	l.cuoi = nullptr;
+}
+
+int empty(linklist l)
+{
+	return (l.dau == nullptr);
+}
+
+pnode taonode(monhoc x)
+{
+	pnode p = new node;
+	if (!p) return 0;
+	else
+	{
+		p->info = x;
+		p->next = nullptr;
+		return p;
+	}
+}
+
+void themdau(linklist& l, monhoc x)
+{
+	pnode p = taonode(x);
+	if (empty(l))
+	{
+		l.dau = p;
+		l.cuoi = p;
+	}
+	else
+	{
+		p->next = l.dau;
+		l.dau = p;
+	}
+}
+
+void themcuoi(linklist& l, monhoc x)
+{
+	pnode p = taonode(x);
+	if (empty(l))
+	{
+		l.dau = p;
+		l.cuoi = p;
+	}
+	else
+	{
+		l.cuoi->next = p;
+		l.cuoi = p;
+	}
+}
+
+void inds(linklist l)
+{
+	int i = 1;
+	pnode p;
+	intd(xd, yd);
+	for (p = l.dau; p != nullptr; p = p->next)
+	{
+		xy(xd, yd);
+		cout << i;
+		inmh(p->info, xd, yd);
+		yd++;
+		i++;
+	}
+	yd = 10;
+}
+
+int readfile(string f, linklist& l)
+{
+	monhoc x;
+	ifstream file(f.c_str());
+
+	if (!file.is_open())
+		return 1;
+
+	string line;
+	getline(file, line);
+
+	while (getline(file, line))
+	{
+		stringstream ss(line);
+
+		ss.getline(x.msmh, 6, ',');
+		ss.getline(x.ten, 30, ',');
+		ss >> x.stc;
+		ss >> x.lt;
+		ss >> x.th;
+		ss >> x.tuh;
+		themcuoi(l, x);
+	}
+	return 0;
+}
+
+int main()
+{
+	linklist l;
+	initial(l);
+	string filein = "thong_tin_mon_hoc.txt";
+
+	if (readfile(filein, l) == 1)
+	{
+		xy(xd + 3.5 * d, yd + 10.5);
+		cout << "Khong doc duoc file!";
+		stop = _getch();
+	}
+
+	inds(l);
+
+
+	stop = _getch();
+	return 0;
+}
