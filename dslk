@@ -27,6 +27,325 @@ void xy(int x, int y)
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), td);
 }
 
+//menu chinh
+string mn[] = {
+	"CHUONG TRINH QUAN LY MON HOC",
+	"1. In danh sach cac mon hoc",
+	"2. Them mon hoc",
+	"3. Xoa mon hoc",
+	"4. Cap nhat mon hoc",
+	"5. Tim kiem mon hoc",
+	"6. Xap sep mon hoc",
+	"7. Thong ke thong tin",
+	"8. Loc mon hoc",
+	"9. Thoat chuong trinh"
+
+};
+
+//menu them
+string mn_them[] = {
+	"CHON CACH THEM VAO DANH SACH",
+	"1. Them dau",
+	"2. Them cuoi",
+	"3. Them vao stt duoc chon",
+	"4. Them vao sau MSMH duoc chon",
+	"5. Thoat"
+};
+
+//menu cap nhat
+string mn_cn[] = {
+	"CAP NHAT THONG TIN",
+	"1. Cap nhat MSMN",
+	"2. Cap nhat ten mon hoc",
+	"3. Cap nhat so tin chi",
+	"4. Cap nhat so gio ly thuyet",
+	"5. Cap nhat so gio thuc hanh",
+	"6. Cap nhat so gio tu hoc",
+	"7. Cap nhat tat ca",
+	"8. Thoat",
+};
+
+//menu tim kiem 1
+string mn_tk1[] = {
+	"CHON TIM KIEM THEO",
+	"1. MSMH",
+	"2. Ten mon hoc",
+	"3. So tin chi",
+	"4. So gio ly thuyet",
+	"5. So gio thuc hanh",
+	"6. So gio tu hoc",
+	"7. Thoat"
+};
+
+//menu tim kiem 3
+string mn_tk3[] = {
+	"CHON PHUONG THUC TIM KIEM",
+	"1. Tim lon nhat",
+	"2. Tim nho nhat",
+	"3. Tim tuy chon",
+	"4. Thoat"
+};
+
+//menu sx 1
+string mn_sx1[] = {
+	"CHON PHUONG THUC SAP XEP",
+	"1. Buble",
+	"2. Skaker",
+	"3. Selection",
+	"4. Insertion",
+	"5. InterChange",
+	"6. Thoat"
+};
+
+//menu sx 2
+string mn_sx2[] = {
+	"CHON SAP XEP THEO",
+	"1. MSMH",
+	"2. Ten mon hoc",
+	"3. So tin chi",
+	"4. So gio ly thuyet",
+	"5. So gio thuc hanh",
+	"6. So gio tu hoc",
+	"7. Thoat"
+};
+
+//menu sx 3
+string mn_sx3[] = {
+	"CHON LOAI XAP SEP",
+	"1. Tang dan",
+	"2. Giam dan",
+	"3. Thoat"
+};
+
+//menu thong ke
+string mn_thongke[] = {
+	"CHON THONG TIN MUON THONG KE",
+	"1. So tin chi",
+	"2. So gio ly thuyet",
+	"3. So gio thuc hanh",
+	"4. So gio tu hoc",
+	"5. Thoat"
+};
+
+//menu loc 1
+string mn_loc1[] = {
+	"CHON THONG TIN MUON LOC",
+	"1. So tin chi",
+	"2. So gio ly thuyet",
+	"3. So gio thuc hanh",
+	"4. So gio tu hoc",
+	"5. Thoat"
+};
+
+//menu loc 2
+string mn_loc2[] = {
+	"CHON CACH THUC LOC",
+	"1. Lon hon hoac bang",
+	"2. Nho hon hoac bang",
+	"3. Thoat"
+};
+
+//in menu
+void inmn(string m[], int s, int x, int y)
+{
+	xy(x + 3.755 * d, y);
+	cout << m[0];
+	y++;
+	for (int i = 1; i < s; i++)
+	{
+		xy(x + 3.755 * d, y);
+		cout << m[i];
+		y++;
+	}
+	y++;
+	xy(x + 3.75 * d, y);
+	cout << "Chon thao tac: ";
+}
+
+//tao node
+struct node
+{
+	monhoc info;
+	node* next;
+};
+
+//con tro
+typedef node* pnode;
+
+//tao danh sach
+struct linklist
+{
+	pnode dau, cuoi;
+};
+
+
+void initial(linklist& l)
+{
+	l.dau = nullptr;
+	l.cuoi = nullptr;
+}
+
+//ktr co rong khong
+int empty(linklist l)
+{
+	return (l.dau == nullptr);
+}
+
+//tao node moi trong danh sach
+pnode taonode(monhoc x)
+{
+	pnode p = new node;
+	if (!p) return 0;
+	else
+	{
+		p->info = x;
+		p->next = nullptr;
+		return p;
+	}
+}
+
+//tk chung
+pnode tkc(linklist l, monhoc m)
+{
+	pnode p = l.dau;
+	while (p != NULL && strcmp(p->info.msmh, m.msmh) != 0)
+		p = p->next;
+	return p;
+}
+
+//them dau
+void themdau(linklist& l, monhoc x)
+{
+	pnode p = taonode(x);
+	if (empty(l))
+	{
+		l.dau = p;
+		l.cuoi = p;
+	}
+	else
+	{
+		p->next = l.dau;
+		l.dau = p;
+	}
+}
+
+//them cuoi
+void themcuoi(linklist& l, monhoc x)
+{
+	pnode p = taonode(x);
+	if (empty(l))
+	{
+		l.dau = p;
+		l.cuoi = p;
+	}
+	else
+	{
+		l.cuoi->next = p;
+		l.cuoi = p;
+	}
+}
+
+//them bat ki theo stt
+void thembatki1(linklist& l, monhoc m)
+{
+	int x, i = 1;
+
+	pnode p = taonode(m);
+
+	cout << "\nchon stt muon them vao: ";
+	cin >> x;
+
+	if (empty(l))
+	{
+		l.dau = p;
+		l.cuoi = p;
+	}
+	else
+	{
+		for (pnode q = l.dau; q != nullptr; q = q->next)
+		{
+			if (i == x - 1)				{
+				p->next = q->next;
+				q->next = p;
+			}
+			i++;
+		}
+	}
+}
+
+//them bat ki sau msmh
+void thembatki2(linklist& l, monhoc m)
+{
+	monhoc y;
+	pnode p = taonode(m);
+
+	cout << "\nchon msmh muon them vao phia sau: ";
+	cin.ignore();
+	cin.getline(y.msmh, 6);
+
+	pnode k = l.dau;
+	while (k != NULL && strcmp(k->info.msmh, y.msmh) != 0)
+		k = k->next;
+
+	if (empty(l))
+	{
+		l.dau = p;
+		l.cuoi = p;
+	}
+	else if (k == l.cuoi)
+		themcuoi(l, m);
+	else if (k != NULL)
+	{
+		p->next = k->next;
+		k->next = p;
+	}
+	else
+	{
+		cout << "\nKhong tim thay MSMH de them vao";
+		stop = _getch();
+	}
+}
+
+//them tong
+void them(linklist& l)
+{
+	int chon;
+	monhoc m;
+
+	do {
+		system("cls");
+		inmn(mn_them, size(mn_them), xd, yd);
+		cin >> chon;
+		cin.ignore();
+		system("cls");
+	 
+		if (chon != 5)
+		{
+			cout << "MSMH: ";
+			cin.getline(m.msmh, 6);
+			cout << "Ten mon hoc: ";
+			cin.getline(m.ten, 30);
+			cout << "So tin chi: ";
+			cin >> m.stc;
+			cout << "So gio ly thuyet: ";
+			cin >> m.lt;
+			cout << "So gio thuc hanh: ";
+			cin >> m.th;
+			cout << "So gio tu hoc: ";
+			cin >> m.tuh;
+		}
+
+		switch (chon)
+		{
+		case 1: themdau(l, m); break;
+		case 2: themcuoi(l, m); break;
+		case 3: thembatki1(l, m); break;
+		case 4: thembatki2(l, m);
+		}
+		cout << "\nDa them thanh cong";
+	} while (chon != 5);
+}
+
 //in tieu de
 void intd(int x, int& y)
 {
@@ -81,74 +400,7 @@ void inmh(monhoc m, int x, int& y)
 	cout << m.tuh;
 }
 
-//tao node
-struct node
-{
-	monhoc info;
-	node* next;
-};
-
-//con tro
-typedef node* pnode;
-
-struct linklist
-{
-	pnode dau, cuoi;
-};
-
-void initial(linklist& l)
-{
-	l.dau = nullptr;
-	l.cuoi = nullptr;
-}
-
-int empty(linklist l)
-{
-	return (l.dau == nullptr);
-}
-
-pnode taonode(monhoc x)
-{
-	pnode p = new node;
-	if (!p) return 0;
-	else
-	{
-		p->info = x;
-		p->next = nullptr;
-		return p;
-	}
-}
-
-void themdau(linklist& l, monhoc x)
-{
-	pnode p = taonode(x);
-	if (empty(l))
-	{
-		l.dau = p;
-		l.cuoi = p;
-	}
-	else
-	{
-		p->next = l.dau;
-		l.dau = p;
-	}
-}
-
-void themcuoi(linklist& l, monhoc x)
-{
-	pnode p = taonode(x);
-	if (empty(l))
-	{
-		l.dau = p;
-		l.cuoi = p;
-	}
-	else
-	{
-		l.cuoi->next = p;
-		l.cuoi = p;
-	}
-}
-
+//in danh sach
 void inds(linklist l)
 {
 	int i = 1;
@@ -162,9 +414,10 @@ void inds(linklist l)
 		yd++;
 		i++;
 	}
-	yd = 10;
+	yd = 1;
 }
 
+// doc file
 int readfile(string f, linklist& l)
 {
 	monhoc x;
@@ -191,11 +444,38 @@ int readfile(string f, linklist& l)
 	return 0;
 }
 
+//tim kiem
+void tk(linklist l)
+{
+	int chon1, chon2;
+	char yn;
+	monhoc m;
+
+	cout << "nhap msmh can tim: ";
+	cin >> m.msmh;
+
+	if (tkc(l, m) != NULL)
+	{
+		cout << endl;
+		inmh(tkc(l, m)->info, xd, yd);
+	}
+	else
+		cout << "Khong tim thay msmh";
+}
+
 int main()
 {
 	linklist l;
 	initial(l);
 	string filein = "thong_tin_mon_hoc.txt";
+	int chon1;
+
+	xy(xd + 1.5 * d, yd + 10.5);
+	cout << "Vui long chinh co chu len 36 de co trai nghiem tot nhat! Xin cam on";
+	xy(xd + 2.9 * d, yd + 11.5);
+	cout << "Nhan phim bat ki de bat dau chuong trinh";
+	stop = _getch();
+	system("cls");
 
 	if (readfile(filein, l) == 1)
 	{
@@ -204,8 +484,56 @@ int main()
 		stop = _getch();
 	}
 
-	inds(l);
+	do {
+		system("cls");
+		inmn(mn, size(mn), xd, yd);
+		cin >> chon1;
+		cin.ignore();
+		switch (chon1)
+		{
+		case 1:
+			system("cls");
+			inds(l);
+			stop = _getch();
+			break;
+		case 2:
+			system("cls");
+			them(l);
+			break;
+		/*case 3:
+			system("cls");
+			xoa(ds, sl);
+			stop = _getch();
+			break;
+		case 4:
+			system("cls");
+			cn(ds, sl);
+			stop = _getch();
+			break;*/
+		case 5:
+			system("cls");
+			tk(l);
+			stop = _getch();
+			break;
+		/*case 6:
+			system("cls");
+			sapxep(ds, sl, sx);
+			break;
+		case 7:
+			system("cls");
+			thongke(ds, sl);
+			stop = _getch();
+			break;
+		case 8:
+			system("cls");
+			loc(ds, sl);
+			stop = _getch();*/
+		}
+	} while (chon1 != 9);
 
+	system("cls");
+	xy(xd + 3.4 * d, yd + 10.5);
+	cout << "Cam on da su dung chuong trinh! (^w^)";
 
 	stop = _getch();
 	return 0;
