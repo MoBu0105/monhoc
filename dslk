@@ -52,17 +52,14 @@ string mn_them[] = {
 	"5. Thoat"
 };
 
-//menu cap nhat
-string mn_cn[] = {
-	"CAP NHAT THONG TIN",
-	"1. Cap nhat MSMN",
-	"2. Cap nhat ten mon hoc",
-	"3. Cap nhat so tin chi",
-	"4. Cap nhat so gio ly thuyet",
-	"5. Cap nhat so gio thuc hanh",
-	"6. Cap nhat so gio tu hoc",
-	"7. Cap nhat tat ca",
-	"8. Thoat",
+//menu xoa
+string mn_xoa[] = {
+	"CHON CACH XOA DANH SACH",
+	"1. Xoa dau",
+	"2. Xoa cuoi",
+	"3. Xoa theo stt",
+	"4. Xoa sau msmh",
+	"5. Thoat"
 };
 
 //menu tim kiem 1
@@ -260,11 +257,13 @@ void thembatki1(linklist& l, monhoc m)
 		l.dau = p;
 		l.cuoi = p;
 	}
+	else if (p == nullptr)
+		cout << "Stt ko hop le!";
 	else
 	{
 		for (pnode q = l.dau; q != nullptr; q = q->next)
 		{
-			if (i == x - 1)				{
+			if (i == x - 1) {
 				p->next = q->next;
 				q->next = p;
 			}
@@ -318,7 +317,7 @@ void them(linklist& l)
 		cin >> chon;
 		cin.ignore();
 		system("cls");
-	 
+
 		if (chon != 5)
 		{
 			cout << "MSMH: ";
@@ -463,6 +462,127 @@ void tk(linklist l)
 		cout << "Khong tim thay msmh";
 }
 
+//xoa dau
+void xoad(linklist& l)
+{
+	pnode p = l.dau;
+	if (l.dau == l.cuoi)
+	{
+		l.dau = l.cuoi = nullptr;
+		delete p;
+	}
+	else
+	{
+		l.dau = l.dau->next;
+		delete p;
+	}
+}
+
+//xoa cuoi
+void xoac(linklist& l)
+{
+	pnode p = l.cuoi, x = l.dau;
+	if (l.dau == l.cuoi)
+	{
+		l.dau = l.cuoi = nullptr;
+		delete x;
+	}
+	else
+	{
+		while (x->next != l.cuoi)
+			x = x->next;
+		l.cuoi = x;
+		l.cuoi->next = nullptr;
+		delete p;
+	}
+}
+
+//xoa msmh dc chon
+void xoa1(linklist& l)
+{
+	monhoc y;
+	pnode p, x = l.dau;
+
+	cin.ignore();
+	cout << "Chon stt muon xoa: ";
+	cin.getline(y.msmh, 6);
+
+	if (tkc(l, y) == NULL)
+		cout << "Khong tim thay msmh can xoa";
+	else
+	{
+		while (x->next != NULL && strcmp(x->next->info.msmh,y.msmh)!=0)
+			x = x->next;
+		p = x->next;
+		x->next = x->next->next;
+		delete p;
+		cout << "Da xoa thanh cong";
+	}
+}
+
+//xoa sau msmh dc chon
+void xoa2(linklist& l)
+{
+	int i = 1;
+	pnode p = l.dau, x;
+	monhoc y;
+
+	cin.ignore();
+	cout << "chon msmh muon them phia sau: ";
+	cin.getline(y.msmh, 6);
+
+	if (tkc(l, y) == NULL)
+		cout << "Khong tim thay msmh can xoa";
+	else
+	{
+		p = tkc(l, y);
+		x = p->next;
+		if (x == NULL)
+			cout << "ko co phan tu sau msmh da chon";
+		else
+		{
+			p->next = p->next->next;
+			delete x;
+			cout << "Da xoa thanh cong";
+		}
+	}
+}
+
+
+//xoa tong
+void xoa(linklist& l)
+{
+	int chon;
+	system("cls");
+	if (empty(l))
+		cout << "Danh sach rong ko can xoa!";
+	else
+	{
+		inmn(mn_xoa, size(mn_xoa), xd, yd);
+		cin >> chon;
+		system("cls");
+
+		switch (chon)
+		{
+		case 1: 
+			xoad(l);
+			cout << "Da xoa thanh cong";
+			break;
+		case 2:
+			xoac(l);
+			cout << "Da xoa thanh cong";
+			break;
+		case 3:
+			xoa1(l);
+			break;
+		case 4:
+			xoa2(l);
+		}
+	}
+}
+
+
+
 int main()
 {
 	linklist l;
@@ -500,34 +620,34 @@ int main()
 			system("cls");
 			them(l);
 			break;
-		/*case 3:
+		case 3:
 			system("cls");
-			xoa(ds, sl);
+			xoa(l);
 			stop = _getch();
 			break;
-		case 4:
-			system("cls");
-			cn(ds, sl);
-			stop = _getch();
-			break;*/
+			/*case 4:
+				system("cls");
+				cn(ds, sl);
+				stop = _getch();
+				break;*/
 		case 5:
 			system("cls");
 			tk(l);
 			stop = _getch();
 			break;
-		/*case 6:
-			system("cls");
-			sapxep(ds, sl, sx);
-			break;
-		case 7:
-			system("cls");
-			thongke(ds, sl);
-			stop = _getch();
-			break;
-		case 8:
-			system("cls");
-			loc(ds, sl);
-			stop = _getch();*/
+			/*case 6:
+				system("cls");
+				sapxep(ds, sl, sx);
+				break;
+			case 7:
+				system("cls");
+				thongke(ds, sl);
+				stop = _getch();
+				break;
+			case 8:
+				system("cls");
+				loc(ds, sl);
+				stop = _getch();*/
 		}
 	} while (chon1 != 9);
 
