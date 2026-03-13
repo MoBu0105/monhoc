@@ -1,6 +1,8 @@
 #include <iostream>
 #include <conio.h>
 #include <Windows.h>
+#include <iomanip>
+#include <algorithm>
 #include <string>
 #include <fstream>
 #include <sstream>
@@ -59,7 +61,8 @@ string mn_xoa[] = {
 	"2. Xoa cuoi",
 	"3. Xoa theo stt",
 	"4. Xoa sau msmh",
-	"5. Thoat"
+	"5. Xoa het",
+	"6. Thoat"
 };
 
 //menu tim kiem 1
@@ -403,15 +406,27 @@ void inmh(monhoc m, int x, int& y)
 void inds(linklist l)
 {
 	int i = 1;
-	pnode p;
+	pnode p = l.dau;
+
 	intd(xd, yd);
-	for (p = l.dau; p != nullptr; p = p->next)
+	if (empty(l))
 	{
-		xy(xd, yd);
-		cout << i;
-		inmh(p->info, xd, yd);
+		xy(xd + 4 * d, yd);
 		yd++;
-		i++;
+		cout << "DANH SACH RONG";
+	}
+	else
+	{
+		for (p = l.dau; p != nullptr; p = p->next)
+		{
+			xy(xd, yd);
+			cout << i;
+
+			inmh(p->info, xd, yd);
+			yd++;
+			i++;
+		}
+
 	}
 	yd = 1;
 }
@@ -493,6 +508,7 @@ void xoac(linklist& l)
 			x = x->next;
 		l.cuoi = x;
 		l.cuoi->next = nullptr;
+		p = nullptr;
 		delete p;
 	}
 }
@@ -511,7 +527,7 @@ void xoa1(linklist& l)
 		cout << "Khong tim thay msmh can xoa";
 	else
 	{
-		while (x->next != NULL && strcmp(x->next->info.msmh,y.msmh)!=0)
+		while (x->next != NULL && strcmp(x->next->info.msmh, y.msmh) != 0)
 			x = x->next;
 		p = x->next;
 		x->next = x->next->next;
@@ -524,15 +540,15 @@ void xoa1(linklist& l)
 void xoa2(linklist& l)
 {
 	int i = 1;
-	pnode p = l.dau, x;
+	pnode p, x;
 	monhoc y;
 
 	cin.ignore();
-	cout << "chon msmh muon them phia sau: ";
+	cout << "chon msmh muon xoa phia sau: ";
 	cin.getline(y.msmh, 6);
 
 	if (tkc(l, y) == NULL)
-		cout << "Khong tim thay msmh can xoa";
+		cout << "Khong tim thay msmh can xoa phia sau";
 	else
 	{
 		p = tkc(l, y);
@@ -548,6 +564,12 @@ void xoa2(linklist& l)
 	}
 }
 
+//xoa het
+void xoah(linklist& l)
+{
+	while (l.dau != nullptr)
+		xoad(l);
+}
 
 //xoa tong
 void xoa(linklist& l)
@@ -564,7 +586,7 @@ void xoa(linklist& l)
 
 		switch (chon)
 		{
-		case 1: 
+		case 1:
 			xoad(l);
 			cout << "Da xoa thanh cong";
 			break;
@@ -577,11 +599,74 @@ void xoa(linklist& l)
 			break;
 		case 4:
 			xoa2(l);
+			break;
+		case 5:
+			xoah(l);
+			cout << "Da xoa thanh cong";
 		}
 	}
 }
 
+//cap nhat
+void cn(linklist& l)
+{
+	pnode p;
+	monhoc x;
 
+	cout << "Nhap msmh muon cap nhat: ";
+	cin.getline(x.msmh, 6);
+
+	if (tkc(l, x) == NULL)
+		cout << "Khong tim thay msmh can cap nhat!";
+	else
+	{
+		pnode k = tkc(l, x);
+
+		cout << "MSMH: ";
+		cin.getline(k->info.msmh, 6);
+		cout << "Ten mon hoc: ";
+		cin.getline(k->info.ten, 30);
+		cout << "So tin chi: ";
+		cin >> k->info.stc;
+		cout << "So gio ly thuyet: ";
+		cin >> k->info.lt;
+		cout << "So gio thuc hanh: ";
+		cin >> k->info.th;
+		cout << "So gio tu hoc: ";
+		cin >> k->info.tuh;
+
+		cout << "\nDa cap nhat xong!";
+	}
+}
+
+//tong node
+void tong(linklist l)
+{
+	int i = 0;
+
+	for (pnode p = l.dau; p != NULL; p = p->next)
+		i++;
+
+	cout << "danh sach co so node la " << i;
+}
+
+void swap(pnode& a, pnode& b)
+{
+	monhoc m;
+	pnode t = taonode(m);
+	t->info = a->info;
+	a->info = b->info;
+	b->info = t->info;
+}
+
+//sap xep buble
+void buble(linklist& l)
+{
+	for (pnode p = l.dau; p != NULL; p = p->next)
+		for (pnode x = p; x->next != NULL; x = x->next)
+			if (strcmp(x->info.msmh, x->next->info.msmh) > 0)
+				swap(x, x->next);
+}
 
 int main()
 {
@@ -625,21 +710,22 @@ int main()
 			xoa(l);
 			stop = _getch();
 			break;
-			/*case 4:
-				system("cls");
-				cn(ds, sl);
-				stop = _getch();
-				break;*/
+		case 4:
+			system("cls");
+			cn(l);
+			stop = _getch();
+			break;
 		case 5:
 			system("cls");
 			tk(l);
 			stop = _getch();
 			break;
-			/*case 6:
-				system("cls");
-				sapxep(ds, sl, sx);
-				break;
-			case 7:
+		case 6:
+			system("cls");
+			buble(l);
+			stop = _getch();
+			break;
+			/*case 7:
 				system("cls");
 				thongke(ds, sl);
 				stop = _getch();
