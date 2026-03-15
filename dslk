@@ -1,8 +1,6 @@
 #include <iostream>
 #include <conio.h>
 #include <Windows.h>
-#include <iomanip>
-#include <algorithm>
 #include <string>
 #include <fstream>
 #include <sstream>
@@ -59,7 +57,7 @@ string mn_xoa[] = {
 	"CHON CACH XOA DANH SACH",
 	"1. Xoa dau",
 	"2. Xoa cuoi",
-	"3. Xoa theo stt",
+	"3. Xoa theo msmh",
 	"4. Xoa sau msmh",
 	"5. Xoa het",
 	"6. Thoat"
@@ -214,7 +212,7 @@ pnode tkc(linklist l, monhoc m)
 }
 
 //them dau
-void themdau(linklist& l, monhoc x)
+void themd(linklist& l, monhoc x)
 {
 	pnode p = taonode(x);
 	if (empty(l))
@@ -230,7 +228,7 @@ void themdau(linklist& l, monhoc x)
 }
 
 //them cuoi
-void themcuoi(linklist& l, monhoc x)
+void themc(linklist& l, monhoc x)
 {
 	pnode p = taonode(x);
 	if (empty(l))
@@ -246,7 +244,7 @@ void themcuoi(linklist& l, monhoc x)
 }
 
 //them bat ki theo stt
-void thembatki1(linklist& l, monhoc m)
+void them1(linklist& l, monhoc m)
 {
 	int x, i = 1;
 
@@ -262,6 +260,8 @@ void thembatki1(linklist& l, monhoc m)
 	}
 	else if (p == nullptr)
 		cout << "Stt ko hop le!";
+	else if (x == 1)
+		themd(l,m);
 	else
 	{
 		for (pnode q = l.dau; q != nullptr; q = q->next)
@@ -276,7 +276,7 @@ void thembatki1(linklist& l, monhoc m)
 }
 
 //them bat ki sau msmh
-void thembatki2(linklist& l, monhoc m)
+void them2(linklist& l, monhoc m)
 {
 	monhoc y;
 	pnode p = taonode(m);
@@ -295,7 +295,7 @@ void thembatki2(linklist& l, monhoc m)
 		l.cuoi = p;
 	}
 	else if (k == l.cuoi)
-		themcuoi(l, m);
+		themc(l, m);
 	else if (k != NULL)
 	{
 		p->next = k->next;
@@ -321,7 +321,7 @@ void them(linklist& l)
 		cin.ignore();
 		system("cls");
 
-		if (chon != 5)
+		if (chon >= 1 && chon <= 4)
 		{
 			cout << "MSMH: ";
 			cin.getline(m.msmh, 6);
@@ -339,10 +339,10 @@ void them(linklist& l)
 
 		switch (chon)
 		{
-		case 1: themdau(l, m); break;
-		case 2: themcuoi(l, m); break;
-		case 3: thembatki1(l, m); break;
-		case 4: thembatki2(l, m);
+		case 1: themd(l, m); break;
+		case 2: themc(l, m); break;
+		case 3: them1(l, m); break;
+		case 4: them2(l, m);
 		}
 		cout << "\nDa them thanh cong";
 	} while (chon != 5);
@@ -453,7 +453,7 @@ int readfile(string f, linklist& l)
 		ss >> x.lt;
 		ss >> x.th;
 		ss >> x.tuh;
-		themcuoi(l, x);
+		themc(l, x);
 	}
 	return 0;
 }
@@ -496,20 +496,19 @@ void xoad(linklist& l)
 //xoa cuoi
 void xoac(linklist& l)
 {
-	pnode p = l.cuoi, x = l.dau;
 	if (l.dau == l.cuoi)
 	{
+		delete l.dau;
 		l.dau = l.cuoi = nullptr;
-		delete x;
 	}
 	else
 	{
+		pnode x = l.dau;
 		while (x->next != l.cuoi)
 			x = x->next;
+		delete l.cuoi;
 		l.cuoi = x;
 		l.cuoi->next = nullptr;
-		p = nullptr;
-		delete p;
 	}
 }
 
@@ -520,18 +519,23 @@ void xoa1(linklist& l)
 	pnode p, x = l.dau;
 
 	cin.ignore();
-	cout << "Chon stt muon xoa: ";
+	cout << "Chon msmh muon xoa: ";
 	cin.getline(y.msmh, 6);
 
 	if (tkc(l, y) == NULL)
 		cout << "Khong tim thay msmh can xoa";
 	else
 	{
-		while (x->next != NULL && strcmp(x->next->info.msmh, y.msmh) != 0)
-			x = x->next;
-		p = x->next;
-		x->next = x->next->next;
-		delete p;
+		if (strcmp(l.dau->info.msmh, y.msmh) == 0)
+			xoad(l);
+		else
+		{
+			while (x->next != NULL && strcmp(x->next->info.msmh, y.msmh) != 0)
+				x = x->next;
+			p = x->next;
+			x->next = x->next->next;
+			delete p;
+		}
 		cout << "Da xoa thanh cong";
 	}
 }
@@ -577,7 +581,7 @@ void xoa(linklist& l)
 	int chon;
 	system("cls");
 	if (empty(l))
-		cout << "Danh sach rong ko can xoa!";
+		cout << "Danh sach rong!";
 	else
 	{
 		inmn(mn_xoa, size(mn_xoa), xd, yd);
@@ -652,20 +656,22 @@ void tong(linklist l)
 
 void swap(pnode& a, pnode& b)
 {
-	monhoc m;
-	pnode t = taonode(m);
-	t->info = a->info;
+	monhoc t = a->info;
 	a->info = b->info;
-	b->info = t->info;
+	b->info = t;
 }
 
 //sap xep buble
 void buble(linklist& l)
 {
+
 	for (pnode p = l.dau; p != NULL; p = p->next)
+	{
+
 		for (pnode x = p; x->next != NULL; x = x->next)
 			if (strcmp(x->info.msmh, x->next->info.msmh) > 0)
 				swap(x, x->next);
+	}
 }
 
 int main()
