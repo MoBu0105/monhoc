@@ -63,36 +63,13 @@ string mn_xoa[] = {
 	"6. Thoat"
 };
 
-//menu tim kiem 1
-string mn_tk1[] = {
-	"CHON TIM KIEM THEO",
-	"1. MSMH",
-	"2. Ten mon hoc",
-	"3. So tin chi",
-	"4. So gio ly thuyet",
-	"5. So gio thuc hanh",
-	"6. So gio tu hoc",
-	"7. Thoat"
-};
-
-//menu tim kiem 3
-string mn_tk3[] = {
-	"CHON PHUONG THUC TIM KIEM",
-	"1. Tim lon nhat",
-	"2. Tim nho nhat",
-	"3. Tim tuy chon",
-	"4. Thoat"
-};
-
 //menu sx 2
 string mn_sx1[] = {
 	"CHON SAP XEP THEO",
 	"1. MSMH",
 	"2. So tin chi",
 	"3. So gio ly thuyet",
-	"4. So gio thuc hanh",
-	"5. So gio tu hoc",
-	"6. Thoat"
+	"4. Thoat"
 };
 
 //menu sx 3
@@ -111,24 +88,6 @@ string mn_thongke[] = {
 	"3. So gio thuc hanh",
 	"4. So gio tu hoc",
 	"5. Thoat"
-};
-
-//menu loc 1
-string mn_loc1[] = {
-	"CHON THONG TIN MUON LOC",
-	"1. So tin chi",
-	"2. So gio ly thuyet",
-	"3. So gio thuc hanh",
-	"4. So gio tu hoc",
-	"5. Thoat"
-};
-
-//menu loc 2
-string mn_loc2[] = {
-	"CHON CACH THUC LOC",
-	"1. Lon hon hoac bang",
-	"2. Nho hon hoac bang",
-	"3. Thoat"
 };
 
 //in menu
@@ -189,6 +148,8 @@ pnode taonode(monhoc x)
 		return p;
 	}
 }
+
+void buble(linklist&, int, int);
 
 //tk chung
 pnode tkc(linklist l, monhoc m)
@@ -307,34 +268,50 @@ void them2(linklist& l, monhoc m)
 }
 
 //them tong
-void them(linklist& l)
+void them(linklist& l, int sx)
 {
 	int chon;
 	monhoc m;
 
-	do {
-		system("cls");
+	system("cls");
+	if(sx == 0)
+	{
 		inmn(mn_them, size(mn_them), xd, yd);
 		cin >> chon;
 		cin.ignore();
 		system("cls");
+	}
 
-		if (chon >= 1 && chon <= 4)
-		{
-			cout << "MSMH: ";
-			cin.getline(m.msmh, 6);
-			cout << "Ten mon hoc: ";
-			cin.getline(m.ten, 30);
-			cout << "So tin chi: ";
-			cin >> m.stc;
-			cout << "So gio ly thuyet: ";
-			cin >> m.lt;
-			cout << "So gio thuc hanh: ";
-			cin >> m.th;
-			cout << "So gio tu hoc: ";
-			cin >> m.tuh;
-		}
-
+	do {
+		system("cls");
+		cout << "MSMH: ";
+		cin.getline(m.msmh, 6);
+		cout << "Ten mon hoc: ";
+		cin.getline(m.ten, 30);
+		cout << "So tin chi: ";
+		cin >> m.stc;
+		cout << "So gio ly thuyet: ";
+		cin >> m.lt;
+		cout << "So gio thuc hanh: ";
+		cin >> m.th;
+		cout << "So gio tu hoc: ";
+		cin >> m.tuh;
+			
+		if (tkc(l, m) != nullptr)
+			cout << "Msmh trung vui long nhap lai";
+		stop = _getch();
+	} while (tkc(l, m) != nullptr);
+		
+	if (sx != 0)
+	{
+		int t = sx;
+		if (sx < 0) t *= -1;
+		themd(l, m);
+		buble(l, sx, t);
+		cout << "\nDanh sach da tu dong sap xep";
+	}
+	else
+	{
 		switch (chon)
 		{
 		case 1: themd(l, m); break;
@@ -342,8 +319,8 @@ void them(linklist& l)
 		case 3: them1(l, m); break;
 		case 4: them2(l, m); break;
 		}
-		cout << "\nDa them thanh cong";
-	} while (chon != 5);
+	}
+	cout << "\nDa them thanh cong";
 }
 
 //in tieu de
@@ -424,7 +401,6 @@ void inds(linklist l)
 			yd++;
 			i++;
 		}
-
 	}
 	yd = 1;
 }
@@ -595,7 +571,7 @@ void xoa(linklist& l)
 		cin >> chon;
 		if (chon == 6) return;
 		system("cls");
-		
+
 		switch (chon)
 		{
 		case 1:
@@ -616,7 +592,7 @@ void xoa(linklist& l)
 			xoah(l);
 			cout << "Da xoa thanh cong";
 		}
-	} while (chon != 6); 
+	} while (chon != 6);
 }
 
 //cap nhat
@@ -660,7 +636,7 @@ void swap(pnode& a, pnode& b)
 	b->info = t;
 }
 
-//so sanh tuy theo chon1 cua sap xep
+//so sanh tuy theo chon1 cua sap xep tong
 int ss(pnode a, pnode b, int chon1)
 {
 	switch (chon1)
@@ -680,57 +656,22 @@ void buble(linklist& l, int sx, int chon1)
 	int xong;
 	pnode gioihan = nullptr;
 
-	do {
-		xong = 0;
-		for (pnode x = l.dau; x->next != gioihan; x = x->next)
+	for (pnode p = l.dau; p->next != nullptr; p = p->next)
+	{
+		xong = 1;
+		for (pnode x = l.dau; x->next != nullptr; x = x->next)
 		{
 			int cmp = ss(x, x->next, chon1);
 			if ((sx > 0 && cmp > 0) || (sx < 0 && cmp < 0))
 			{
 				swap(x, x->next);
-				xong = 1; //toi uu khi ds da dc sap xep
+				xong = 0;
 			}
+			gioihan = x;
 		}
-		pnode q = l.dau;
-		while (q->next != gioihan) q = q->next;
-		gioihan = q; // gioi han lui
-
-	} while (xong != 0);
+		if (xong == 1) break;
+	}	
 }
-
-//sap xep shaker theo stc
-//void shaker(linklist& l, int sx, int chon1)
-//{
-//	pnode t = l.dau, p = nullptr, k = p;
-//
-//	while (t != p)
-//	{
-//		for (pnode i = t; i->next !=	p; i = i->next)
-//		{
-//			int cmp = ss(i, i->next, chon1);
-//			
-//			if ((sx > 0 && cmp > 0) || (sx < 0 && cmp < 0))
-//			{
-//				swap(i, i->next);
-//				k = i->next;
-//			}
-//		}
-//		p = k;
-//
-//		for (pnode i = t; i->next != p; i = i->next)
-//		{
-//			int cmp = 1;
-//			if (i->info.stc < i->next->info.stc)
-//				cmp = -1;
-//			if ((sx > 0 && cmp > 0) || (sx < 0 && cmp < 0))
-//			{
-//				swap(i, i->next);
-//				k = i;
-//			}
-//		}
-//		p = k;
-//	}
-//}
 
 //sap xep selection theo lt
 void selection(linklist& l, int sx, int chon1)
@@ -749,16 +690,10 @@ void selection(linklist& l, int sx, int chon1)
 	}
 }
 
-//sap xep insertion theo th
-void insertion(linklist& l, int sx, int chon1)
-{
-
-}
-
 //sap xep interchange theo tuh
 void interchange(linklist& l, int sx, int chon1)
 {
-	for(pnode p = l.dau; p != nullptr; p = p->next)
+	for (pnode p = l.dau; p != nullptr; p = p->next)
 		for (pnode x = l.dau; x != nullptr; x = x->next)
 		{
 			int cmp = ss(p, x, chon1);
@@ -799,10 +734,8 @@ void sapxep(linklist& l, int& sx)
 	switch (chon1)
 	{
 	case 1: buble(l, sx, chon1); break;
-	case 2:
-	case 3: selection(l, sx, chon1); break;
-	case 4:
-	case 5: interchange(l, sx, chon1);
+	case 2: selection(l, sx, chon1); break;
+	case 3: interchange(l, sx, chon1);
 	}
 }
 
@@ -811,7 +744,7 @@ int main()
 	linklist l;
 	initial(l);
 	string filein = "thong_tin_mon_hoc.txt";
-	int chon1, sx=0;
+	int chon1, sx = 0;
 
 	xy(xd + 1.5 * d, yd + 10.5);
 	cout << "Vui long chinh co chu len 36 de co trai nghiem tot nhat! Xin cam on";
@@ -841,7 +774,8 @@ int main()
 			break;
 		case 2:
 			system("cls");
-			them(l);
+			them(l, sx);
+			stop = _getch();
 			break;
 		case 3:
 			system("cls");
@@ -861,15 +795,6 @@ int main()
 			system("cls");
 			sapxep(l, sx);
 			break;
-			/*case 7:
-				system("cls");
-				thongke(ds, sl);
-				stop = _getch();
-				break;
-			case 8:
-				system("cls");
-				loc(ds, sl);
-				stop = _getch();*/
 		}
 	} while (chon1 != 9);
 
