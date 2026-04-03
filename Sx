@@ -74,3 +74,22 @@ void interchange(int m[], int sl)
             if(m[i]>m[j])
                 swap(m[i], m[j]);
 }
+
+void Quick(int m[], int l, int r)
+{
+	int x = m[(l+r) / 2], i = l, j = r; //chon moc
+	
+	do {
+		while (m[i] < x) i++;
+		while (m[j] > x) j--;
+		if (i <= j)
+		{
+			swap(m[i], m[j]);
+			i++;
+			j--;
+		}
+	} while (i <= j); //chon va hoan doi
+
+	if (i < r) Q(m, i, r); //phai
+	if (l < j) Q(m, l, j); //trai
+}
