@@ -1,0 +1,331 @@
+#include <iostream>
+#include <conio.h>
+
+using namespace std;
+
+int stop;
+
+struct HOADON {
+	char mhd[6];
+	char tenkh[40];
+	char tensp[40];
+	int sl;
+	float dongia, thue;
+};
+
+void them(HOADON m[], int& sl)
+{
+	sl++;
+	cin.ignore();
+	cout << "Ma hoa don: ";
+	cin.getline(m[sl - 1].mhd, 6);
+	cout << "Ten khach hang: ";
+	cin.getline(m[sl - 1].tenkh, 40);
+	cout << "ten san pham: ";
+	cin.getline(m[sl - 1].tensp, 40);
+	cout << "So luong: ";
+	cin >> m[sl - 1].sl;
+	cout << "Don gia: ";
+	cin >> m[sl - 1].dongia;
+	cout << "Thue: ";
+	cin >> m[sl - 1].thue;
+	cout << "\nThem thanh cong";
+}
+
+void in(HOADON m[], int sl)
+{
+	cout << m[sl].mhd
+		<< "\t" << m[sl].tenkh
+		<< "\t" << m[sl].tensp
+		<< "\t" << m[sl].sl
+		<< "\t" << m[sl].dongia
+		<< "\t" << m[sl].thue
+		<< "\t" << m[sl].sl * m[sl].dongia + ((m[sl].sl * m[sl].dongia) * m[sl].thue / 100);
+}
+
+void inds(HOADON m[], int sl)
+{
+	for (int i = 0; i < sl; i++)
+	{
+		in(m, i);
+		cout << endl;
+	}
+}
+
+void sx(HOADON m[], int sl)
+{
+	HOADON x;
+	int y;
+	for (int i = 0; i < sl; i++)
+	{
+		y = i;
+		x = m[i];
+		while (y > 0 && strcmp(x.mhd, m[i - 1].mhd) < 0)
+		{
+			m[y] = m[y - 1];
+			y--;
+		}
+		m[y] = x;
+	}
+
+	cout << "Da sap xep thanh cong";
+}
+
+void tk(HOADON m[], int sl)
+{
+	char x[6];
+	int i = 0;
+
+	cin.ignore();
+	cout << "Ma hoa don can tim: ";
+	cin.getline(x, 6);
+	
+	while (strcmp(x, m[i].mhd) != 0)
+		i++;
+
+	in(m, i);
+}
+
+int main()
+{
+	HOADON ds[100];
+	int slds = 0, chon;
+
+	do {
+		system("cls");
+		cout << "1. In danh sach\n2. Them hoa don\n3. Sap xep\n4. Tim kiem\n5. Thoat\n\nChon chuc nang: ";
+		cin >> chon;
+		
+		switch (chon)
+		{
+		case 1:
+			system("cls");
+			inds(ds, slds);
+			stop = _getch();
+			break;
+		case 2:
+			system("cls");
+			them(ds, slds);
+			stop = _getch();
+			break;
+		case 3:
+			system("cls");
+			sx(ds, slds);
+			stop = _getch();
+			break;
+		case 4:
+			system("cls");
+			tk(ds, slds);
+			stop = _getch();
+		}
+		
+	} while (chon < 5);
+
+	stop = _getch();
+	return 0;
+}
+
+#include <iostream>
+#include <conio.h>
+
+using namespace std;
+
+int stop;
+
+struct HOADON {
+	char mhd[6];
+	char tenkh[40];
+	char tensp[40];
+	int sl;
+	float dongia, thue;
+};
+
+struct node {
+	HOADON info;
+	node* next;
+};
+
+typedef node* pnode;
+
+struct list {
+	pnode dau, cuoi;
+};
+
+int emepty(list l)
+{
+	return (l.dau == nullptr);
+}
+
+void khoitao(list& l)
+{
+	l.dau = nullptr;
+	l.cuoi = nullptr;
+}
+
+pnode taonode(HOADON x)
+{
+	pnode p = new node;
+	if (!p) return 0;
+	else
+	{
+		p->info = x;
+		p->next = nullptr;
+		return p;
+	}
+}
+
+void them(list& l)
+{
+	HOADON x;
+
+	cin.ignore();
+	cout << "Ma hoa don: ";
+	cin.getline(x.mhd, 6);
+	cout << "Ten khach hang: ";
+	cin.getline(x.tenkh, 40);
+	cout << "ten san pham: ";
+	cin.getline(x.tensp, 40);
+	cout << "So luong: ";
+	cin >> x.sl;
+	cout << "Don gia: ";
+	cin >> x.dongia;
+	cout << "Thue: ";
+	cin >> x.thue;
+	cout << "\nThem thanh cong";
+	
+	pnode p = taonode(x);
+
+	if (emepty(l))
+		l.dau = l.cuoi = p;
+	else
+	{
+		l.cuoi->next = p;
+		l.cuoi = p;
+	}
+}
+
+float tinh(pnode p)
+{
+	return p->info.sl * p->info.dongia + p->info.thue;
+}
+
+void in(pnode p)
+{
+	cout << p->info.mhd
+		<< "\t" << p->info.tenkh
+		<< "\t" << p->info.tensp
+		<< "\t" << p->info.sl
+		<< "\t" << p->info.dongia
+		<< "\t" << p->info.thue
+		<< "\t" << tinh(p);
+}
+
+void inds(list l)
+{
+	for (pnode p = l.dau; p != nullptr; p = p->next)
+	{
+		in(p);
+		cout << endl;
+	}
+}
+
+void swap(pnode& a, pnode& b)
+{
+	HOADON x = a->info;
+	a->info = b->info;
+	b->info = x;
+}
+
+void sx(list& l)
+{
+	for (pnode p = l.dau; p->next != nullptr; p = p->next)
+		for (pnode x = l.dau; x->next != nullptr; x = x->next)
+			if (tinh(x) < tinh(x->next))
+				swap(x, x->next);
+	cout << "Sap xep thanh cong";
+}
+
+pnode tkc(list l)
+{
+	char x[6];
+	cin.ignore();
+	cout << "Ma hoa don can tim: ";
+	cin.getline(x, 6);
+
+	for (pnode p = l.dau; p->next != nullptr; p = p->next)
+	{
+		if (strcmp(x, p->info.mhd) != 0)
+			return p;
+		else
+			return nullptr;
+	}
+}
+
+void tk(list l)
+{
+	pnode p = tkc(l);
+	p = p->next;
+	if (p == nullptr)
+		cout << "khong tim thay";
+	else
+		in(p);
+}
+
+void xoa(list& l)
+{
+	pnode p = tkc(l);
+	if (p == nullptr)
+	{
+		cout << "khong tim thay";
+		return;
+	}
+	
+	p->next = p->next->next;
+	pnode k = p->next;
+	delete k;
+}
+
+int main()
+{
+	list l;
+	int chon;
+	khoitao(l);
+
+	do {
+		system("cls");
+		cout << "1. In danh sach\n2. Them hoa don\n3. Sap xep\n4. Tim kiem\n5. Xoa\n6. Thoat\n\nChon chuc nang: ";
+		cin >> chon;
+
+		switch (chon)
+		{
+		case 1:
+			system("cls");
+			inds(l);
+			stop = _getch();
+			break;
+		case 2:
+			system("cls");
+			them(l);
+			stop = _getch();
+			break;
+		case 3:
+			system("cls");
+			sx(l);
+			stop = _getch();
+			break;
+		case 4:
+			system("cls");
+			tk(l);
+			stop = _getch();
+			break;
+		case 5:
+			system("cls");
+			xoa(l);
+			stop = _getch();
+		}
+
+	} while (chon < 6);
+
+	stop = _getch();
+	return 0;
+}
